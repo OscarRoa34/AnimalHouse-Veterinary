@@ -3,7 +3,7 @@ package co.edu.uptc.view.Aside;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import co.edu.uptc.PropertiesService;
+import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.view.GlobalView;
 
 import java.awt.*;

@@ -3,9 +3,9 @@ package co.edu.uptc.view.MainView;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import co.edu.uptc.PropertiesService;
 import co.edu.uptc.Interfaces.VetInterface;
 import co.edu.uptc.Interfaces.VetInterface.Presenter;
+import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.view.Aside.Aside;
 import co.edu.uptc.view.Aside.AsideButton;
 import co.edu.uptc.view.MainPanels.AppointmentHistoryPanel;

@@ -7,8 +7,8 @@ import com.toedter.calendar.JCalendar;
 
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainView.MainView;
-import co.edu.uptc.PropertiesService;
-import co.edu.uptc.TextPrompt;
+import co.edu.uptc.Utils.PropertiesService;
+import co.edu.uptc.Utils.TextPrompt;
 import co.edu.uptc.models.Appointment;
 
 import java.awt.*;

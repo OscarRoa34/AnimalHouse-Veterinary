@@ -18,7 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import co.edu.uptc.TextPrompt;
+import co.edu.uptc.Utils.TextPrompt;
 import co.edu.uptc.models.Pet;
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainView.MainView;

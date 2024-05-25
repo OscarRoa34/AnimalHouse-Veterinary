@@ -1,4 +1,4 @@
-package co.edu.uptc;
+package co.edu.uptc.Utils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

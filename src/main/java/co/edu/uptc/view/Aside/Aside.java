@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
-import co.edu.uptc.PropertiesService;
+import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.view.GlobalView;
 
 import java.awt.Color;

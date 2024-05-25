@@ -13,8 +13,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import co.edu.uptc.PropertiesService;
-import co.edu.uptc.TextPrompt;
+import co.edu.uptc.Utils.PropertiesService;
+import co.edu.uptc.Utils.TextPrompt;
 import co.edu.uptc.view.GlobalView;
 
 public class EditVaccinePopUp extends JDialog {
