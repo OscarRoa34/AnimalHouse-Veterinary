@@ -5,15 +5,18 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import co.edu.uptc.Utils.TextPrompt;
@@ -78,7 +81,6 @@ public class AppointmentPanel extends JPanel {
         searchBarPanel.add(searchButton, BorderLayout.EAST);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Aquí puedes agregar la lógica para buscar mascotas si es necesario
             }
         });
         this.add(searchBarPanel);
@@ -93,6 +95,7 @@ public class AppointmentPanel extends JPanel {
             }
         };
         petTable = new JTable(modelPets);
+        petTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollPane = new JScrollPane(petTable);
         scrollPane.setBounds(20, 120, 850, 100);
@@ -132,7 +135,6 @@ public class AppointmentPanel extends JPanel {
         searchBarPanel.add(searchButton, BorderLayout.EAST);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Aquí puedes agregar la lógica para buscar vacunas si es necesario
             }
         });
         this.add(searchBarPanel);
@@ -184,7 +186,6 @@ public class AppointmentPanel extends JPanel {
         searchBarPanel.add(searchButton, BorderLayout.EAST);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Aquí puedes agregar la lógica para buscar usuarios si es necesario
             }
         });
         this.add(searchBarPanel);
@@ -199,6 +200,7 @@ public class AppointmentPanel extends JPanel {
             }
         };
         usersTable = new JTable(modelUsers);
+        usersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollPane = new JScrollPane(usersTable);
         scrollPane.setBounds(20, 460, 850, 100);
@@ -230,55 +232,43 @@ public class AppointmentPanel extends JPanel {
         addButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_ADD_COLOR, 2));
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // createAppointment();
+                createAppointment();
+                JOptionPane.showMessageDialog(null, "Cita correctamente agregada", "Success", 1);
             }
         });
         this.add(addButton);
     }
 
-    // TO DO Crear y agregar appointment, solucionar usuario al agregar mascota,
-    // Funcion boton edita
+    private void createAppointment() {
+        int selectedPetRow = petTable.getSelectedRow();
+        int[] selectedVaccineRows = vaccinesTable.getSelectedRows();
+        int selectedUserRow = usersTable.getSelectedRow();
 
-    // private void createAppointment() {
-    // int[] selectedPetRows = petTable.getSelectedRows();
-    // int[] selectedVaccineRows = vaccinesTable.getSelectedRows();
-    // int[] selectedUserRows = usersTable.getSelectedRows();
+        if (selectedPetRow == -1 || selectedVaccineRows.length == 0 || selectedUserRow == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor seleccione correctamente", "Error", 2);
+            return;
+        }
 
-    // if (selectedPetRows.length == 0 || selectedVaccineRows.length == 0 ||
-    // selectedUserRows.length == 0) {
-    // JOptionPane.showMessageDialog(null, "Error", "Porfavor seleccione
-    // correctamente", 2);
-    // return;
-    // }
+        int petId = (int) petTable.getValueAt(selectedPetRow, 0);
 
-    // List<Pet> selectedPets = new ArrayList<>();
-    // for (int row : selectedPetRows) {
-    // int petId = (int) petTable.getValueAt(row, 0);
-    // Pet pet = mainView.getPresenter().getPetById(petId);
-    // selectedPets.add(pet);
-    // }
+        List<Integer> selectedVaccineIds = new ArrayList<>();
+        for (int row : selectedVaccineRows) {
+            int vaccineId = (int) vaccinesTable.getValueAt(row, 0);
+            selectedVaccineIds.add(vaccineId);
+        }
 
-    // // Obtener las vacunas seleccionadas
-    // List<Vaccine> selectedVaccines = new ArrayList<>();
-    // for (int row : selectedVaccineRows) {
-    // int vaccineId = (int) vaccinesTable.getValueAt(row, 0); // Suponiendo que el
-    // ID de la vacuna está en la
-    // // columna 0
-    // Vaccine vaccine = mainView.getPresenter().getVaccineById(vaccineId);
-    // selectedVaccines.add(vaccine);
-    // }
+        int userId = (int) usersTable.getValueAt(selectedUserRow, 0);
 
-    // // Obtener los usuarios seleccionados
-    // List<Person> selectedUsers = new ArrayList<>();
-    // for (int row : selectedUserRows) {
-    // int userId = (int) usersTable.getValueAt(row, 0); // Suponiendo que el ID del
-    // usuario está en la columna 0
-    // Person user = mainView.getPresenter().getPersonById(userId);
-    // selectedUsers.add(user);
-    // }
+        List<Integer> selectedPetIds = new ArrayList<>();
+        selectedPetIds.add(petId);
 
-    // mainView.getPresenter().createAppointment(CONTADOR_ID, selectedPets.get(0),
-    // selectedVaccines,
-    // selectedUsers.get(0));
-    // }
+        List<Integer> selectedUserIds = new ArrayList<>();
+        selectedUserIds.add(userId);
+
+        mainView.getPresenter().registerAppointment(mainView.getPresenter().createAppointment(CONTADOR_ID++,
+                selectedPetIds, selectedVaccineIds, selectedUserIds));
+
+        mainView.getAppointmentHistoryPanel().loadAppointmentsData();
+    }
+
 }

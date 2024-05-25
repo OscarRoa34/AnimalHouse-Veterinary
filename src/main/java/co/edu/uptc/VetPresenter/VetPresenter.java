@@ -1,6 +1,7 @@
 package co.edu.uptc.VetPresenter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.uptc.Interfaces.VetInterface;
@@ -92,8 +93,59 @@ public class VetPresenter implements VetInterface.Presenter {
     }
 
     @Override
-    public Appointment createAppointment(int appointmentId, Pet pet, List<Vaccine> vaccines, Person user) {
-        return new Appointment(appointmentId, LocalDate.now(), pet, user, vaccines);
+    public Appointment createAppointment(int contadorId, List<Integer> petIds, List<Integer> vaccineIds,
+            List<Integer> userIds) {
+        List<Pet> selectedPets = new ArrayList<>();
+        for (int petId : petIds) {
+            Pet pet = getPetById(petId);
+            selectedPets.add(pet);
+        }
+
+        List<Vaccine> selectedVaccines = new ArrayList<>();
+        for (int vaccineId : vaccineIds) {
+            Vaccine vaccine = getVaccineById(vaccineId);
+            selectedVaccines.add(vaccine);
+        }
+
+        List<Person> selectedUsers = new ArrayList<>();
+        for (int userId : userIds) {
+            Person user = getPersonById(userId);
+            selectedUsers.add(user);
+        }
+
+        return new Appointment(contadorId, LocalDate.now(), selectedPets.get(0),
+                selectedUsers.get(0), selectedVaccines);
+    }
+
+    private Person getPersonById(int userId) {
+        List<Person> users = model.getPersons();
+        for (Person person : users) {
+            if (person.getPersonId() == userId) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    private Vaccine getVaccineById(int vaccineId) {
+        List<Vaccine> vaccines = model.getVaccines();
+
+        for (Vaccine vaccine : vaccines) {
+            if (vaccine.getVaccineId() == vaccineId) {
+                return vaccine;
+            }
+        }
+        return null;
+    }
+
+    private Pet getPetById(int petId) {
+        List<Pet> pets = model.getPets();
+        for (Pet pet : pets) {
+            if (pet.getPetId() == petId) {
+                return pet;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -134,7 +186,6 @@ public class VetPresenter implements VetInterface.Presenter {
         return model.getVaccines();
     }
 
-    @Override
     public List<Appointment> getAppointments() {
         return model.getAppointments();
     }

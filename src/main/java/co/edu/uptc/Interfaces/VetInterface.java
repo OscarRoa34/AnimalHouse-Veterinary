@@ -88,7 +88,8 @@ public interface VetInterface {
 
         void registerAppointment(Appointment appointment);
 
-        Appointment createAppointment(int appointmentId, Pet pet, List<Vaccine> vaccines, Person user);
+        Appointment createAppointment(int contadorId, List<Integer> petIds, List<Integer> vaccineIds,
+                List<Integer> userIds);
 
         void removeAppointment(Appointment appointment);
 

@@ -38,7 +38,6 @@ public class AppointmentHistoryPanel extends JPanel {
         createSearchBar();
         createAppointmentHistoryTable();
         addCalendarButton();
-        loadAppointmentsData();
     }
 
     private void createTitle() {
@@ -75,7 +74,7 @@ public class AppointmentHistoryPanel extends JPanel {
     }
 
     private void createAppointmentHistoryTable() {
-        String[] columnNames = { "ID", "Fecha de la cita", "Mascota", "Vacunas" };
+        String[] columnNames = { "ID", "Fecha de la cita", "Mascota", "Vacunas", "Dueño" };
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -181,8 +180,9 @@ public class AppointmentHistoryPanel extends JPanel {
             model.addRow(new Object[] {
                     appointment.getAppointmentId(),
                     appointment.getAppointmentDate(),
+                    appointment.getPet().getPetName(),
+                    appointment.getVaccines(),
                     appointment.getResponsible().getPersonName(),
-                    appointment.getVaccines()
             });
         }
     }

@@ -32,6 +32,7 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
     private PropertiesService p = new PropertiesService();
 
     private AppointmentPanel appointmentPanel;
+    private AppointmentHistoryPanel appointmentHistoryPanel;
 
     public MainView() throws IOException {
         appointmentPanel = new AppointmentPanel(this);
@@ -85,7 +86,8 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
     private void createPanels() {
         panelChanger.add(new PetPanel(this), "pet");
         panelChanger.add(appointmentPanel, "appointment");
-        panelChanger.add(new AppointmentHistoryPanel(this), "appointmentHistory");
+        appointmentHistoryPanel = new AppointmentHistoryPanel(this);
+        panelChanger.add(appointmentHistoryPanel, "appointmentHistory");
         panelChanger.add(new VaccinesPanel(this), "vaccine");
         panelChanger.add(new UserPanel(this), "user");
     }
@@ -131,6 +133,7 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
             appointmentPanel.loadVaccinesData();
         } else if (e.getSource() == appointmentHistoryButton) {
             cardLayout.show(panelChanger, "appointmentHistory");
+            appointmentHistoryPanel.loadAppointmentsData();
         } else if (e.getSource() == vaccineButton) {
             cardLayout.show(panelChanger, "vaccine");
         } else if (e.getSource() == usersButton) {
@@ -138,4 +141,7 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
         }
     }
 
+    public AppointmentHistoryPanel getAppointmentHistoryPanel() {
+        return appointmentHistoryPanel;
+    }
 }
