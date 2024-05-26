@@ -47,4 +47,4 @@ oscar.roa03@uptc.edu.co
 
 ¡Gracias por usar AnimalHouse!
 
-![AnimalHouse Logo](src\main\resources\Images\salud.png)
+![AnimalHouse Logo](https://static.vecteezy.com/system/resources/previews/022/894/105/non_2x/veterinary-clinic-logo-illustration-vector.jpg)
