@@ -75,8 +75,13 @@ public class VetManager implements VetInterface.Model {
     }
 
     @Override
-    public void removePerson(Person person) {
-        persons.remove(person);
+    public void removePersonById(int id) {
+        for (Person person : persons) {
+            if (person.getPersonId() == id) {
+                persons.remove(person);
+                break;
+            }
+        }
     }
 
     @Override
@@ -98,8 +103,13 @@ public class VetManager implements VetInterface.Model {
     }
 
     @Override
-    public void removeVaccine(Vaccine vaccine) {
-        vaccines.remove(vaccine);
+    public void removeVaccineById(int id) {
+        for (Vaccine vaccine : vaccines) {
+            if (vaccine.getVaccineId() == id) {
+                vaccines.remove(vaccine);
+                break;
+            }
+        }
     }
 
     @Override

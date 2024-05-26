@@ -88,7 +88,7 @@ public class CreateUserPopUp extends JDialog {
     }
 
     private void createDocumentPanel(JComboBox<String> documentComboBox) {
-        documentComboBox.setBounds(120, 220, 110, 30);
+        documentComboBox.setBounds(100, 220, 150, 30);
         documentComboBox.addItem("Cedula de ciudadania");
         documentComboBox.addItem("Tarjeta de identidad");
         documentComboBox.addItem("Pasaporte");

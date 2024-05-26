@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -107,6 +108,7 @@ public class UserPanel extends JPanel {
             }
         };
         usersTable = new JTable(model);
+        usersTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollPane = new JScrollPane(usersTable);
         scrollPane.setBounds(20, 130, 850, 400);
@@ -164,10 +166,24 @@ public class UserPanel extends JPanel {
         editButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_EDIT_COLOR, 2));
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    new EditUserPopUp().setVisible(true);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                int selectedRow = usersTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    selectedRow = usersTable.convertRowIndexToModel(selectedRow);
+
+                    int id = Integer.parseInt(String.valueOf(usersTable.getModel().getValueAt(selectedRow, 0)));
+                    String name = (String) usersTable.getModel().getValueAt(selectedRow, 1);
+                    String lastName = (String) usersTable.getModel().getValueAt(selectedRow, 2);
+                    String age = String.valueOf(usersTable.getModel().getValueAt(selectedRow, 3));
+                    String docType = String.valueOf(usersTable.getModel().getValueAt(selectedRow, 4));
+                    String docNumber = String.valueOf(usersTable.getModel().getValueAt(selectedRow, 5));
+
+                    try {
+                        EditUserPopUp editUserWindow = new EditUserPopUp(id, name, lastName, age, docType, docNumber,
+                                getInstance());
+                        editUserWindow.setVisible(true);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
@@ -183,6 +199,23 @@ public class UserPanel extends JPanel {
         deleteButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_REMOVE_COLOR, 2));
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                int selectedRow = usersTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    selectedRow = usersTable.convertRowIndexToModel(selectedRow);
+                    int id = Integer.parseInt(String.valueOf(usersTable.getModel().getValueAt(selectedRow, 0)));
+
+                    int confirmation = JOptionPane.showConfirmDialog(null,
+                            "¿Estás seguro de que quieres eliminar este usuario?", "Confirmación",
+                            JOptionPane.YES_NO_OPTION);
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        mainView.getPresenter().removePersonById(id);
+                        model.removeRow(selectedRow);
+                        loadPersonsData();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecciona un usuario para eliminar.", "Advertencia",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         return deleteButton;

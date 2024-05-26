@@ -23,7 +23,7 @@ public interface VetInterface {
 
         void editPerson(int personId, Person newPerson);
 
-        void removePerson(Person person);
+        void removePersonById(int id);
 
         void registerVaccine(Vaccine vaccine);
 
@@ -76,7 +76,7 @@ public interface VetInterface {
 
         void editPerson(int personId, Person newPerson);
 
-        void removePerson(Person person);
+        void removePersonById(int id);
 
         void registerVaccine(Vaccine vaccine);
 
