@@ -45,7 +45,6 @@ public class PetPanel extends JPanel {
         createSearchBar();
         createPetsTable();
         createButtons();
-        loadPetsData();
     }
 
     private void createTitle() {

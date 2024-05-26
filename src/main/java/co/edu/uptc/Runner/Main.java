@@ -10,8 +10,8 @@ public class Main {
     public static void main(String[] args) {
         VetInterface.Model model = new VetManager();
         VetPresenter presenter = new VetPresenter();
-        MainView view = null;
 
+        MainView view = null;
         try {
             view = new MainView();
         } catch (IOException e) {
@@ -19,10 +19,11 @@ public class Main {
             System.exit(1);
         }
 
-        model.setPresenter(presenter);
-        view.setPresenter(presenter);
-        presenter.setModel(model);
         presenter.setView(view);
+
+        presenter.setModel(model);
+
+        view.setPresenter(presenter);
 
         view.begin();
     }

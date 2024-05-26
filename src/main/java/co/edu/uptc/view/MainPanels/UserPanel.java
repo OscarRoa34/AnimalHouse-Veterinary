@@ -45,7 +45,6 @@ public class UserPanel extends JPanel {
         createSearchBar();
         createUsersTable();
         createButtons();
-        loadPersonsData();
     }
 
     private void createTitle() {

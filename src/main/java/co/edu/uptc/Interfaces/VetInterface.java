@@ -1,5 +1,6 @@
 package co.edu.uptc.Interfaces;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -52,6 +53,22 @@ public interface VetInterface {
         Person getPersonById(int id);
 
         Pet getPetById(int id);
+
+        void saveAppointmentsToJson(String filePath) throws IOException;
+
+        void loadAppointmentsFromJson(String filePath) throws IOException;
+
+        void saveVaccinesToJson(String filePath) throws IOException;
+
+        void loadVaccinesFromJson(String filePath) throws IOException;
+
+        void savePersonsToJson(String filePath) throws IOException;
+
+        void loadPersonsFromJson(String filePath) throws IOException;
+
+        void savePetsToJson(String filePath) throws IOException;
+
+        void loadPetsFromJson(String filePath) throws IOException;
 
     }
 
@@ -116,6 +133,21 @@ public interface VetInterface {
 
         Pet getPetById(int id);
 
+        void saveAppointmentsToJson(String filePath);
+
+        void loadAppointmentsFromJson(String filePath);
+
+        void saveVaccinesToJson(String filePath);
+
+        void loadVaccinesFromJson(String filePath);
+
+        void savePersonsToJson(String filePath);
+
+        void loadPersonsFromJson(String filePath);
+
+        void savePetsToJson(String filePath);
+
+        void loadPetsFromJson(String filePath);
     }
 
 }

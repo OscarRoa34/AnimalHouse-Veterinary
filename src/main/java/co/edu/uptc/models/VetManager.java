@@ -168,6 +168,7 @@ public class VetManager implements VetInterface.Model {
         return petsWithVaccinesExpiring;
     }
 
+    @Override
     public void saveAppointmentsToJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -175,51 +176,82 @@ public class VetManager implements VetInterface.Model {
         objectMapper.writeValue(new File(filePath), appointments);
     }
 
+    @Override
     public void loadAppointmentsFromJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        appointments = objectMapper.readValue(new File(filePath),
-                new TypeReference<List<Appointment>>() {
-                });
+        File file = new File(filePath);
+        if (file.exists()) {
+            appointments = objectMapper.readValue(file, new TypeReference<List<Appointment>>() {
+            });
+        } else {
+            appointments = new ArrayList<>();
+            file.createNewFile();
+            saveAppointmentsToJson(filePath); // Guardar la lista vacía al archivo
+        }
     }
 
+    @Override
     public void saveVaccinesToJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.writeValue(new File(filePath), vaccines);
     }
 
+    @Override
     public void loadVaccinesFromJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        vaccines = objectMapper.readValue(new File(filePath),
-                new TypeReference<List<Vaccine>>() {
-                });
+        File file = new File(filePath);
+        if (file.exists()) {
+            vaccines = objectMapper.readValue(file, new TypeReference<List<Vaccine>>() {
+            });
+        } else {
+            vaccines = new ArrayList<>();
+            file.createNewFile();
+            saveVaccinesToJson(filePath); // Guardar la lista vacía al archivo
+        }
     }
 
+    @Override
     public void savePersonsToJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.writeValue(new File(filePath), persons);
     }
 
+    @Override
     public void loadPersonsFromJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        persons = objectMapper.readValue(new File(filePath),
-                new TypeReference<List<Person>>() {
-                });
+        File file = new File(filePath);
+        if (file.exists()) {
+            persons = objectMapper.readValue(file, new TypeReference<List<Person>>() {
+            });
+        } else {
+            persons = new ArrayList<>();
+            file.createNewFile();
+            savePersonsToJson(filePath); // Guardar la lista vacía al archivo
+        }
     }
 
+    @Override
     public void savePetsToJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.writeValue(new File(filePath), pets);
     }
 
+    @Override
     public void loadPetsFromJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        pets = objectMapper.readValue(new File(filePath),
-                new TypeReference<List<Pet>>() {
-                });
+        File file = new File(filePath);
+        if (file.exists()) {
+            pets = objectMapper.readValue(file, new TypeReference<List<Pet>>() {
+            });
+        } else {
+            pets = new ArrayList<>();
+            file.createNewFile();
+            savePetsToJson(filePath); // Guardar la lista vacía al archivo
+        }
     }
 
     @Override

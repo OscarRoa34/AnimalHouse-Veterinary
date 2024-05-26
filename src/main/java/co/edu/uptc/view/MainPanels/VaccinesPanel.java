@@ -32,8 +32,6 @@ public class VaccinesPanel extends JPanel {
 
     private JTextField searchField;
     private JTable vaccinesTable;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
     private MainView mainView;
     private DefaultTableModel model;
 
@@ -45,7 +43,6 @@ public class VaccinesPanel extends JPanel {
         createSearchBar();
         createVaccinesTable();
         createButtons();
-        loadVaccinesData();
     }
 
     private void createTitle() {
@@ -65,7 +62,7 @@ public class VaccinesPanel extends JPanel {
 
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 30));
-        txtPrompt = new TextPrompt("Nombre de la vacuna", searchField);
+        new TextPrompt("Nombre de la vacuna", searchField);
         searchBarPanel.add(searchField, BorderLayout.CENTER);
 
         JButton searchButton = new JButton("Buscar");

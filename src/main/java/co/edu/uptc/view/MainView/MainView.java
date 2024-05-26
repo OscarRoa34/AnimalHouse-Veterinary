@@ -23,19 +23,27 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
 
     private JPanel asidePanel;
     private JPanel panelChanger;
+    private AppointmentPanel appointmentPanel;
+    private AppointmentHistoryPanel appointmentHistoryPanel;
+    private PetPanel petPanel;
+    private UserPanel userPanel;
+    private VaccinesPanel vaccinesPanel;
+
     private JButton petButton;
     private JButton appointmentButton;
     private JButton appointmentHistoryButton;
     private JButton vaccineButton;
     private JButton usersButton;
+
     private VetInterface.Presenter presenter;
     private PropertiesService p = new PropertiesService();
 
-    private AppointmentPanel appointmentPanel;
-    private AppointmentHistoryPanel appointmentHistoryPanel;
-
     public MainView() throws IOException {
         appointmentPanel = new AppointmentPanel(this);
+        vaccinesPanel = new VaccinesPanel(this);
+        appointmentHistoryPanel = new AppointmentHistoryPanel(this);
+        petPanel = new PetPanel(this);
+        userPanel = new UserPanel(this);
     }
 
     @Override
@@ -64,6 +72,29 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
         initGridBagLayout();
         createAsideButtons();
         createPanels();
+        presenter.loadAppointmentsFromJson(p.getProperties("appointmentsJson"));
+        presenter.loadVaccinesFromJson(p.getProperties("vaccinesJson"));
+        presenter.loadPersonsFromJson(p.getProperties("personsJson"));
+        presenter.loadPetsFromJson(p.getProperties("petsJson"));
+
+        appointmentPanel.loadPersonsData();
+        appointmentPanel.loadPetsData();
+        appointmentPanel.loadVaccinesData();
+        appointmentHistoryPanel.loadAppointmentsData();
+        petPanel.loadPetsData();
+        vaccinesPanel.loadVaccinesData();
+        userPanel.loadPersonsData();
+
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                presenter.saveAppointmentsToJson(p.getProperties("appointmentsJson"));
+                presenter.saveVaccinesToJson(p.getProperties("vaccinesJson"));
+                presenter.savePersonsToJson(p.getProperties("personsJson"));
+                presenter.savePetsToJson(p.getProperties("petsJson"));
+            }
+        });
     }
 
     private void initGridBagLayout() {
@@ -84,12 +115,11 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
     }
 
     private void createPanels() {
-        panelChanger.add(new PetPanel(this), "pet");
+        panelChanger.add(petPanel, "pet");
         panelChanger.add(appointmentPanel, "appointment");
-        appointmentHistoryPanel = new AppointmentHistoryPanel(this);
         panelChanger.add(appointmentHistoryPanel, "appointmentHistory");
-        panelChanger.add(new VaccinesPanel(this), "vaccine");
-        panelChanger.add(new UserPanel(this), "user");
+        panelChanger.add(vaccinesPanel, "vaccine");
+        panelChanger.add(userPanel, "user");
     }
 
     private void createAsideButtons() {

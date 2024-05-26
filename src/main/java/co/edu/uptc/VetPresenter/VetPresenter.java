@@ -1,5 +1,6 @@
 package co.edu.uptc.VetPresenter;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -178,6 +179,78 @@ public class VetPresenter implements VetInterface.Presenter {
     @Override
     public Person getPersonById(int id) {
         return model.getPersonById(id);
+    }
+
+    @Override
+    public void saveAppointmentsToJson(String filePath) {
+        try {
+            model.saveAppointmentsToJson(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void loadAppointmentsFromJson(String filePath) {
+        try {
+            model.loadAppointmentsFromJson(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveVaccinesToJson(String filePath) {
+        try {
+            model.saveVaccinesToJson(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void loadVaccinesFromJson(String filePath) {
+        try {
+            model.loadVaccinesFromJson(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void savePersonsToJson(String filePath) {
+        try {
+            model.savePersonsToJson(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void loadPersonsFromJson(String filePath) {
+        try {
+            model.loadPersonsFromJson(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void savePetsToJson(String filePath) {
+        try {
+            model.savePetsToJson(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void loadPetsFromJson(String filePath) {
+        try {
+            model.loadPetsFromJson(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
