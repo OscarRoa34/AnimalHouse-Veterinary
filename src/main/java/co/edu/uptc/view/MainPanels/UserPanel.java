@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,7 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import co.edu.uptc.Utils.TextPrompt;
 import co.edu.uptc.models.Person;
@@ -29,8 +33,6 @@ public class UserPanel extends JPanel {
 
     private JTextField searchField;
     private JTable usersTable;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
     private DefaultTableModel model;
     private MainView mainView;
 
@@ -62,14 +64,37 @@ public class UserPanel extends JPanel {
 
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 30));
-        txtPrompt = new TextPrompt("Documento del usuario", searchField);
+        new TextPrompt("Documento del usuario", searchField);
         searchBarPanel.add(searchField, BorderLayout.CENTER);
+        searchField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
 
         JButton searchButton = new JButton("Buscar");
         searchButton.setFocusPainted(false);
         searchButton.setBackground(GlobalView.ASIDE_BORDERCOLOR);
         searchButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
         searchBarPanel.add(searchButton, BorderLayout.EAST);
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String searchText = searchField.getText().trim();
+                filterUsersTable(searchText);
+            }
+        });
         this.add(searchBarPanel);
     }
 
@@ -95,30 +120,22 @@ public class UserPanel extends JPanel {
 
         buttonPanel.setBounds(20, 550, 880, 50);
 
-        JButton addButton = createAddButon();
+        JButton addButton = createAddButton();
         addButton.setPreferredSize(new Dimension(150, 40));
         buttonPanel.add(addButton);
 
-        JButton editButton = createEditButon();
+        JButton editButton = createEditButton();
         editButton.setPreferredSize(new Dimension(150, 40));
         buttonPanel.add(editButton);
 
-        JButton deleteButton = createRemoveButon();
+        JButton deleteButton = createRemoveButton();
         deleteButton.setPreferredSize(new Dimension(150, 40));
         buttonPanel.add(deleteButton);
 
         this.add(buttonPanel);
     }
 
-    private UserPanel getInstance() {
-        return this;
-    }
-
-    public MainView getMainView() {
-        return mainView;
-    }
-
-    private JButton createAddButon() {
+    private JButton createAddButton() {
         JButton addButton = new JButton("Agregar");
         addButton.setBackground(GlobalView.BUTTONS_ADD_BACKGROUND);
         addButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
@@ -139,7 +156,7 @@ public class UserPanel extends JPanel {
         return addButton;
     }
 
-    private JButton createEditButon() {
+    private JButton createEditButton() {
         JButton editButton = new JButton("Editar");
         editButton.setBackground(GlobalView.BUTTONS_EDIT_BACKGROUND);
         editButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
@@ -158,7 +175,7 @@ public class UserPanel extends JPanel {
         return editButton;
     }
 
-    private JButton createRemoveButon() {
+    private JButton createRemoveButton() {
         JButton deleteButton = new JButton("Eliminar");
         deleteButton.setBackground(GlobalView.BUTTONS_REMOVE_BACKGROUND);
         deleteButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
@@ -186,5 +203,25 @@ public class UserPanel extends JPanel {
             });
 
         }
+    }
+
+    private void filterUsersTable(String searchText) {
+        DefaultTableModel tableModel = (DefaultTableModel) usersTable.getModel();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
+        usersTable.setRowSorter(tableRowSorter);
+
+        if (searchText.length() == 0) {
+            tableRowSorter.setRowFilter(null);
+        } else {
+            tableRowSorter.setRowFilter(RowFilter.regexFilter("^" + searchText + "$"));
+        }
+    }
+
+    private UserPanel getInstance() {
+        return this;
+    }
+
+    public MainView getMainView() {
+        return mainView;
     }
 }

@@ -3,6 +3,8 @@ package co.edu.uptc.view.PopUps;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import co.edu.uptc.Utils.PropertiesService;
@@ -73,13 +76,23 @@ public class CreateUserPopUp extends JDialog {
         ageField = new JTextField();
         ageField.setBounds(100, 170, 150, 30);
         txtPrompt = new TextPrompt("Edad del usuario", ageField);
+        ageField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (!Character.isDigit(e.getKeyChar())) {
+                    e.consume();
+                }
+            }
+        });
         this.add(ageField);
     }
 
     private void createDocumentPanel(JComboBox<String> documentComboBox) {
         documentComboBox.setBounds(120, 220, 110, 30);
-        documentComboBox.addItem("CC");
-        documentComboBox.addItem("TI");
+        documentComboBox.addItem("Cedula de ciudadania");
+        documentComboBox.addItem("Tarjeta de identidad");
+        documentComboBox.addItem("Pasaporte");
+        documentComboBox.addItem("Cedula Extranjera");
         this.add(documentComboBox);
     }
 
@@ -91,6 +104,14 @@ public class CreateUserPopUp extends JDialog {
         documentNumberField = new JTextField();
         documentNumberField.setBounds(100, 270, 150, 30);
         txtPrompt = new TextPrompt("Numero del documento", documentNumberField);
+        documentNumberField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (!Character.isDigit(e.getKeyChar())) {
+                    e.consume();
+                }
+            }
+        });
         this.add(documentNumberField);
     }
 
@@ -105,9 +126,18 @@ public class CreateUserPopUp extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 String personName = nameField.getText();
                 String personLastName = lastNameField.getText();
-                int personAge = Integer.parseInt(ageField.getText());
+                String ageText = ageField.getText();
                 String docType = (String) documentComboBox.getSelectedItem();
                 String docNumber = documentNumberField.getText();
+
+                if (personName.isEmpty() || personLastName.isEmpty() || ageText.isEmpty() || docNumber.isEmpty()
+                        || docType == null) {
+                    JOptionPane.showMessageDialog(CreateUserPopUp.this, "Todos los campos son obligatorios.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int personAge = Integer.parseInt(ageText);
 
                 userPanel.getMainView().getPresenter().registerPerson(userPanel.getMainView().getPresenter()
                         .createPerson(CONTADOR_ID++, personName, personLastName, personAge, docType, docNumber));
