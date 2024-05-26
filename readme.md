@@ -2,14 +2,20 @@
 
 Bienvenido a **AnimalHouse**, una herramienta completa para la gestión de una clínica veterinaria. Este proyecto permite el registro y manejo de usuarios, mascotas, vacunas, y citas, todo en un solo lugar.
 
+---
+
 ## Autor:
 
 **Oscar Alejandro Roa Doncel**  
 Código: 202311225
 
+---
+
 ## Prerrequisitos:
 
 - Java 21
+
+---
 
 ## Funcionalidades:
 
@@ -17,6 +23,8 @@ Código: 202311225
 - **Registro de Mascotas:** Añade y gestiona las mascotas bajo cuidado.
 - **Vacunas:** Registra y maneja las vacunas disponibles.
 - **Citas:** Programa y organiza citas entre usuarios, mascotas, y vacunas.
+
+---
 
 ## Patron de diseño:
 
