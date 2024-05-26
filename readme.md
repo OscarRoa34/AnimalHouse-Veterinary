@@ -24,14 +24,6 @@ Código: 202311225
 
 ---
 
-##
-
----
-
-##
-
----
-
 ## AnimalHouse: Simplificando la gestión veterinaria.
 
 ---
