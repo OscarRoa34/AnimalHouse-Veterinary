@@ -50,6 +50,9 @@ public interface VetInterface {
         List<Pet> getPetsWithVaccinesExpiring(LocalDate date);
 
         Person getPersonById(int id);
+
+        Pet getPetById(int id);
+
     }
 
     public interface View {
@@ -110,6 +113,9 @@ public interface VetInterface {
         void getPetsWithVaccinesExpiring(LocalDate date);
 
         Person getPersonById(int id);
+
+        Pet getPetById(int id);
+
     }
 
 }

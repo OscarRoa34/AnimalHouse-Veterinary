@@ -128,14 +128,9 @@ public class VetPresenter implements VetInterface.Presenter {
         return null;
     }
 
-    private Pet getPetById(int petId) {
-        List<Pet> pets = model.getPets();
-        for (Pet pet : pets) {
-            if (pet.getPetId() == petId) {
-                return pet;
-            }
-        }
-        return null;
+    @Override
+    public Pet getPetById(int id) {
+        return model.getPetById(id);
     }
 
     @Override

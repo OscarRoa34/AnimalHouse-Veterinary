@@ -17,7 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import co.edu.uptc.Utils.TextPrompt;
 import co.edu.uptc.models.Pet;
@@ -27,8 +29,9 @@ import co.edu.uptc.view.PopUps.CreatePetPopUp;
 import co.edu.uptc.view.PopUps.EditPetPopUp;
 
 public class PetPanel extends JPanel {
+
     private JTextField searchField;
-    private JTable petTable;
+    private JTable petsTable;
     @SuppressWarnings("unused")
     private TextPrompt txtPrompt;
     private MainView mainView;
@@ -40,7 +43,7 @@ public class PetPanel extends JPanel {
         this.setLayout(null);
         createTitle();
         createSearchBar();
-        createPetTable();
+        createPetsTable();
         createButtons();
         loadPetsData();
     }
@@ -50,7 +53,7 @@ public class PetPanel extends JPanel {
         Font titleFont = titleLabel.getFont();
         Font biggerFont = titleFont.deriveFont(Font.BOLD, 35);
         titleLabel.setFont(biggerFont);
-        titleLabel.setBounds(360, 20, 200, 50);
+        titleLabel.setBounds(369, 20, 200, 50);
         this.add(titleLabel);
     }
 
@@ -72,25 +75,24 @@ public class PetPanel extends JPanel {
         searchBarPanel.add(searchButton, BorderLayout.EAST);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                loadPetsData();
-                System.out.println(mainView.getPresenter().getPets());
+                String searchText = searchField.getText().trim();
+                filterPetsTable(searchText);
             }
-
         });
         this.add(searchBarPanel);
     }
 
-    private void createPetTable() {
-        String[] columnNames = { "ID", "Nombre", "Especie", "Raza", "Dueño" };
+    private void createPetsTable() {
+        String[] columnNames = { "ID", "Nombre", "Especie", "Raza", "Edad", "Dueño" };
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 3;
             }
         };
-        petTable = new JTable(model);
+        petsTable = new JTable(model);
 
-        JScrollPane scrollPane = new JScrollPane(petTable);
+        JScrollPane scrollPane = new JScrollPane(petsTable);
         scrollPane.setBounds(20, 130, 850, 400);
         this.add(scrollPane);
     }
@@ -106,11 +108,11 @@ public class PetPanel extends JPanel {
         addButton.setPreferredSize(new Dimension(150, 40));
         buttonPanel.add(addButton);
 
-        JButton editButton = createEditButon();
+        JButton editButton = createEditButton();
         editButton.setPreferredSize(new Dimension(150, 40));
         buttonPanel.add(editButton);
 
-        JButton deleteButton = createRemoveButon();
+        JButton deleteButton = createRemoveButton();
         deleteButton.setPreferredSize(new Dimension(150, 40));
         buttonPanel.add(deleteButton);
 
@@ -140,10 +142,11 @@ public class PetPanel extends JPanel {
                 }
             }
         });
+
         return addButton;
     }
 
-    private JButton createEditButon() {
+    private JButton createEditButton() {
         JButton editButton = new JButton("Editar");
         editButton.setBackground(GlobalView.BUTTONS_EDIT_BACKGROUND);
         editButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
@@ -151,10 +154,24 @@ public class PetPanel extends JPanel {
         editButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_EDIT_COLOR, 2));
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    new EditPetPopUp().setVisible(true);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                int selectedRow = petsTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    selectedRow = petsTable.convertRowIndexToModel(selectedRow);
+
+                    int id = Integer.parseInt(String.valueOf(petsTable.getModel().getValueAt(selectedRow, 0)));
+                    String name = (String) petsTable.getModel().getValueAt(selectedRow, 1);
+                    String specie = (String) petsTable.getModel().getValueAt(selectedRow, 2);
+                    String breed = (String) petsTable.getModel().getValueAt(selectedRow, 3);
+                    int age = Integer.parseInt(String.valueOf(petsTable.getModel().getValueAt(selectedRow, 4)));
+                    int ownerId = Integer.parseInt(String.valueOf(petsTable.getModel().getValueAt(selectedRow, 5)));
+
+                    try {
+                        EditPetPopUp editPetWindow = new EditPetPopUp(id, name, specie, breed, age, ownerId,
+                                getInstance());
+                        editPetWindow.setVisible(true);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
@@ -162,7 +179,7 @@ public class PetPanel extends JPanel {
         return editButton;
     }
 
-    private JButton createRemoveButon() {
+    private JButton createRemoveButton() {
         JButton deleteButton = new JButton("Eliminar");
         deleteButton.setBackground(GlobalView.BUTTONS_REMOVE_BACKGROUND);
         deleteButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
@@ -170,21 +187,20 @@ public class PetPanel extends JPanel {
         deleteButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_REMOVE_COLOR, 2));
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = petTable.getSelectedRow();
+                int selectedRow = petsTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    selectedRow = petTable.convertRowIndexToModel(selectedRow);
-                    int id = Integer.parseInt(String.valueOf(petTable.getModel().getValueAt(selectedRow, 0)));
+                    selectedRow = petsTable.convertRowIndexToModel(selectedRow);
+                    int id = Integer.parseInt(String.valueOf(petsTable.getModel().getValueAt(selectedRow, 0)));
 
                     int confirmation = JOptionPane.showConfirmDialog(null,
-                            "¿Estás seguro de que quieres eliminar este usuario?", "Confirmación",
+                            "¿Estás seguro de que quieres eliminar esta mascota?", "Confirmación",
                             JOptionPane.YES_NO_OPTION);
                     if (confirmation == JOptionPane.YES_OPTION) {
                         mainView.getPresenter().removePetById(id);
                         model.removeRow(selectedRow);
-                        loadPetsData();
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Selecciona un usuario para eliminar.", "Advertencia",
+                    JOptionPane.showMessageDialog(null, "Selecciona una mascota para eliminar.", "Advertencia",
                             JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -202,9 +218,20 @@ public class PetPanel extends JPanel {
                     pet.getPetName(),
                     pet.getSpecie(),
                     pet.getBreed(),
-                    pet.getOwner().getPersonName() + " " + pet.getOwner().getPersonLastName()
+                    pet.getPetAge(),
+                    pet.getOwner().getPersonId()
             });
+        }
+    }
 
+    private void filterPetsTable(String searchText) {
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        petsTable.setRowSorter(tableRowSorter);
+
+        if (searchText.length() == 0) {
+            tableRowSorter.setRowFilter(null);
+        } else {
+            tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
         }
     }
 }

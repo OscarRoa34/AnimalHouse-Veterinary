@@ -3,120 +3,157 @@ package co.edu.uptc.view.PopUps;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JRadioButton;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.Utils.TextPrompt;
+import co.edu.uptc.models.Person;
 import co.edu.uptc.view.GlobalView;
+import co.edu.uptc.view.MainPanels.PetPanel;
 
 public class EditPetPopUp extends JDialog {
 
     private JTextField nameField;
-    @SuppressWarnings("rawtypes")
-    private JComboBox animalDropdown;
+    private JTextField specieField;
     private JTextField breedField;
     private JTextField ageField;
-    @SuppressWarnings("rawtypes")
-    private JComboBox personDropdown;
+    private JTable ownerTable;
+    private JTextField searchOwnerField;
     @SuppressWarnings("unused")
     private TextPrompt txtPrompt;
     private PropertiesService p = new PropertiesService();
+    private PetPanel petPanel;
+    private int id;
+    private int ownerId;
 
-    public EditPetPopUp() throws IOException {
+    public EditPetPopUp(int id, String name, String specie, String breed, int age, int ownerId, PetPanel petPanel)
+            throws IOException {
+        this.id = id;
+        this.petPanel = petPanel;
+        this.ownerId = ownerId;
         this.setTitle("Editar Mascota");
-        this.setSize(350, 450);
+        this.setSize(450, 550);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModal(true);
         this.setLayout(null);
         this.setIconImage(ImageIO.read(new File(p.getProperties("principalFrameLogo"))));
-        createNameField();
-        createAnimalDropdown();
-        createBreedField();
-        createAgeField();
-        createPersonTypePanel(createRadioButtonOwner(), createRadioButtonResponsible());
-        createPersonDropdown();
+        createNameField(name);
+        createSpecieField(specie);
+        createBreedField(breed);
+        createAgeField(age);
+        createOwnerTable();
         createEditButton();
         createCancelButton();
     }
 
-    private void createNameField() {
+    private void createNameField(String name) {
         JLabel titleLabel = new JLabel("Editar Mascota");
         Font titleFont = titleLabel.getFont();
         Font biggerFont = titleFont.deriveFont(Font.BOLD, 25);
         titleLabel.setFont(biggerFont);
-        titleLabel.setBounds(75, 5, 230, 50);
+        titleLabel.setBounds(150, 5, 230, 50);
         this.add(titleLabel);
 
         nameField = new JTextField();
-        nameField.setBounds(100, 70, 150, 30);
-        txtPrompt = new TextPrompt("Nombre de la mascota", nameField);
+        nameField.setBounds(150, 60, 150, 30);
+        txtPrompt = new TextPrompt(name, nameField);
         this.add(nameField);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void createAnimalDropdown() {
-        String[] options = { "Gato", "Perro" };
-        animalDropdown = new JComboBox(options);
-        animalDropdown.setBackground(GlobalView.SEARCHBAR_BACKGROUND);
-        animalDropdown.setForeground(GlobalView.SEARCHBAR_FOREGROUND);
-        animalDropdown.setBounds(100, 120, 150, 30);
-        this.add(animalDropdown);
+    private void createSpecieField(String specie) {
+        specieField = new JTextField();
+        specieField.setBounds(150, 105, 150, 30);
+        txtPrompt = new TextPrompt(specie, specieField);
+        this.add(specieField);
     }
 
-    private void createBreedField() {
+    private void createBreedField(String breed) {
         breedField = new JTextField();
-        breedField.setBounds(100, 170, 150, 30);
-        txtPrompt = new TextPrompt("Raza", breedField);
+        breedField.setBounds(150, 150, 150, 30);
+        txtPrompt = new TextPrompt(breed, breedField);
         this.add(breedField);
     }
 
-    private void createAgeField() {
+    private void createAgeField(int age) {
         ageField = new JTextField();
-        ageField.setBounds(100, 220, 150, 30);
-        txtPrompt = new TextPrompt("Edad de la mascota", ageField);
+        ageField.setBounds(150, 195, 150, 30);
+        txtPrompt = new TextPrompt(String.valueOf(age), ageField);
+        ageField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != '\b') {
+                    e.consume();
+                }
+            }
+        });
         this.add(ageField);
     }
 
-    private void createPersonTypePanel(JRadioButton owner, JRadioButton responsible) {
-        owner.setBounds(100, 270, 80, 30);
-        responsible.setBounds(185, 270, 100, 30);
+    private void createOwnerTable() {
+        String[] columnNames = { "ID", "Nombre", "Apellido" };
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        ownerTable = new JTable(model);
 
-        ButtonGroup personGroup = new ButtonGroup();
-        personGroup.add(owner);
-        personGroup.add(responsible);
+        JScrollPane scrollPane = new JScrollPane(ownerTable);
+        scrollPane.setBounds(20, 290, 400, 150);
+        this.add(scrollPane);
 
-        this.add(owner);
-        this.add(responsible);
+        loadOwnersData();
+
+        searchOwnerField = new JTextField();
+        searchOwnerField.setBounds(150, 250, 150, 30);
+        txtPrompt = new TextPrompt("Buscar Dueño", searchOwnerField);
+        searchOwnerField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                String searchText = searchOwnerField.getText().trim();
+                filterOwnersTable(searchText, model);
+            }
+        });
+        this.add(searchOwnerField);
     }
 
-    private JRadioButton createRadioButtonOwner() {
-        return new JRadioButton("Dueño");
+    private void filterOwnersTable(String searchText, DefaultTableModel model) {
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        ownerTable.setRowSorter(tableRowSorter);
+
+        if (searchText.length() == 0) {
+            tableRowSorter.setRowFilter(null);
+        } else {
+            tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1, 2));
+        }
     }
 
-    private JRadioButton createRadioButtonResponsible() {
-        return new JRadioButton("Responsable");
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void createPersonDropdown() {
-        String[] options = { "Persona 1", "Persona 2", "Persona 3" };
-        personDropdown = new JComboBox(options);
-        personDropdown.setBackground(GlobalView.SEARCHBAR_BACKGROUND);
-        personDropdown.setForeground(GlobalView.SEARCHBAR_FOREGROUND);
-        personDropdown.setBounds(100, 320, 150, 30);
-        this.add(personDropdown);
+    private void loadOwnersData() {
+        List<Person> owners = petPanel.getMainView().getPresenter().getPersons();
+        DefaultTableModel model = (DefaultTableModel) ownerTable.getModel();
+        model.setRowCount(0);
+        for (Person owner : owners) {
+            model.addRow(new Object[] { owner.getPersonId(), owner.getPersonName(), owner.getPersonLastName() });
+        }
     }
 
     private void createEditButton() {
@@ -124,10 +161,35 @@ public class EditPetPopUp extends JDialog {
         editButton.setBackground(GlobalView.BUTTONS_ADD_BACKGROUND);
         editButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
         editButton.setFocusPainted(false);
-        editButton.setBounds(50, 370, 100, 40);
+        editButton.setBounds(100, 470, 100, 40);
         editButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_ADD_COLOR, 2));
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String newName = nameField.getText().trim();
+                String newSpecie = specieField.getText().trim();
+                String newBreed = breedField.getText().trim();
+                int newAge;
+
+                if (newName.isEmpty() || newSpecie.isEmpty() || newBreed.isEmpty() || ageField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese todos los campos.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                newAge = Integer.parseInt(ageField.getText());
+
+                int selectedRow = ownerTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    selectedRow = ownerTable.convertRowIndexToModel(selectedRow);
+                    ownerId = Integer.parseInt(String.valueOf(ownerTable.getModel().getValueAt(selectedRow, 0)));
+                }
+
+                petPanel.getMainView().getPresenter().editPet(id,
+                        petPanel.getMainView().getPresenter().createPet(id, newName, newSpecie, newBreed, newAge,
+                                petPanel.getMainView().getPresenter().getPersonById(ownerId)));
+                petPanel.loadPetsData();
+
+                dispose();
             }
         });
         this.add(editButton);
@@ -138,7 +200,7 @@ public class EditPetPopUp extends JDialog {
         cancelButton.setBackground(GlobalView.BUTTONS_REMOVE_BACKGROUND);
         cancelButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
         cancelButton.setFocusPainted(false);
-        cancelButton.setBounds(190, 370, 100, 40);
+        cancelButton.setBounds(250, 470, 100, 40);
         cancelButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_REMOVE_COLOR, 2));
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

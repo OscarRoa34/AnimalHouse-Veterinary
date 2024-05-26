@@ -251,4 +251,14 @@ public class VetManager implements VetInterface.Model {
         }
         return null;
     }
+
+    @Override
+    public Pet getPetById(int id) {
+        for (Pet pet : pets) {
+            if (pet.getPetId() == id) {
+                return pet;
+            }
+        }
+        return null;
+    }
 }
