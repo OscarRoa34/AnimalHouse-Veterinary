@@ -138,7 +138,6 @@ public class CreateUserPopUp extends JDialog {
                 }
 
                 int personAge = Integer.parseInt(ageText);
-
                 userPanel.getMainView().getPresenter().registerPerson(userPanel.getMainView().getPresenter()
                         .createPerson(CONTADOR_ID++, personName, personLastName, personAge, docType, docNumber));
                 userPanel.loadPersonsData();

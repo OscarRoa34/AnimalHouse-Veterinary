@@ -3,6 +3,8 @@ package co.edu.uptc.view.PopUps;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -11,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import co.edu.uptc.Utils.PropertiesService;
@@ -60,7 +63,15 @@ public class CreateVaccinePopUp extends JDialog {
     private void createLifeSpanField() {
         lifeSpanField = new JTextField();
         lifeSpanField.setBounds(100, 105, 150, 30);
-        txtPrompt = new TextPrompt("Vida util de la vacuna", lifeSpanField);
+        txtPrompt = new TextPrompt("Vida útil de la vacuna", lifeSpanField);
+        lifeSpanField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (!Character.isDigit(e.getKeyChar())) {
+                    e.consume();
+                }
+            }
+        });
         this.add(lifeSpanField);
     }
 
@@ -74,7 +85,14 @@ public class CreateVaccinePopUp extends JDialog {
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String vaccineName = nameField.getText();
-                int vaccineLifeSpan = Integer.parseInt(lifeSpanField.getText());
+                String lifeSpanText = lifeSpanField.getText();
+
+                if (vaccineName.isEmpty() || lifeSpanText.isEmpty()) {
+                    JOptionPane.showMessageDialog(CreateVaccinePopUp.this, "Todos los campos son obligatorios.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                int vaccineLifeSpan = Integer.parseInt(lifeSpanText);
 
                 vaccinesPanel.getMainView().getPresenter().registerVaccine(
                         vaccinesPanel.getMainView().getPresenter().createVaccine(CONTADOR_ID++, vaccineName,
