@@ -181,9 +181,10 @@ public class AppointmentHistoryPanel extends JPanel {
                     appointment.getAppointmentId(),
                     appointment.getAppointmentDate(),
                     appointment.getPet().getPetName(),
-                    appointment.getVaccines(),
-                    appointment.getResponsible().getPersonName(),
+                    appointment.getVaccineNames(),
+                    appointment.getResponsible().getPersonName()
             });
         }
     }
+
 }

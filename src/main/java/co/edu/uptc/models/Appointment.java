@@ -26,4 +26,16 @@ public class Appointment {
         }
         return expireDates;
     }
+
+    public String getVaccineNames() {
+        StringBuilder vaccineNames = new StringBuilder();
+        for (Vaccine vaccine : vaccines) {
+            if (vaccineNames.length() > 0) {
+                vaccineNames.append(", ");
+            }
+            vaccineNames.append(vaccine.getVaccineName());
+        }
+        return vaccineNames.toString();
+    }
+
 }
