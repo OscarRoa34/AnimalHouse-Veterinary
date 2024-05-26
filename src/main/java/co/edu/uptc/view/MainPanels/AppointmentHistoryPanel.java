@@ -186,5 +186,4 @@ public class AppointmentHistoryPanel extends JPanel {
             });
         }
     }
-
 }
