@@ -5,17 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.Utils.TextPrompt;
+import co.edu.uptc.models.Vaccine;
 import co.edu.uptc.view.GlobalView;
+import co.edu.uptc.view.MainPanels.VaccinesPanel;
 
 public class EditVaccinePopUp extends JDialog {
     private JTextField nameField;
@@ -23,9 +24,13 @@ public class EditVaccinePopUp extends JDialog {
     @SuppressWarnings("unused")
     private TextPrompt txtPrompt;
     private PropertiesService p = new PropertiesService();
+    private VaccinesPanel vaccinesPanel;
+    private int id;
 
-    public EditVaccinePopUp() throws IOException {
-        this.setTitle("Crear Vacuna");
+    public EditVaccinePopUp(int id, String name, int lifeSpan, VaccinesPanel vaccinesPanel) throws IOException {
+        this.id = id;
+        this.vaccinesPanel = vaccinesPanel;
+        this.setTitle("Editar Vacuna");
         this.setSize(350, 250);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -33,13 +38,13 @@ public class EditVaccinePopUp extends JDialog {
         this.setModal(true);
         this.setLayout(null);
         this.setIconImage(ImageIO.read(new File(p.getProperties("principalFrameLogo"))));
-        createNameField();
-        createLifeSpanField();
-        createAddButton();
+        createNameField(name);
+        createLifeSpanField(lifeSpan);
+        createEditButton();
         createCancelButton();
     }
 
-    private void createNameField() {
+    private void createNameField(String name) {
         JLabel titleLabel = new JLabel("Editar Vacuna");
         Font titleFont = titleLabel.getFont();
         Font biggerFont = titleFont.deriveFont(Font.BOLD, 25);
@@ -49,29 +54,44 @@ public class EditVaccinePopUp extends JDialog {
 
         nameField = new JTextField();
         nameField.setBounds(100, 60, 150, 30);
-        txtPrompt = new TextPrompt("Nombre de la vacuna", nameField);
+        txtPrompt = new TextPrompt(name, nameField);
         this.add(nameField);
     }
 
-    private void createLifeSpanField() {
+    private void createLifeSpanField(int lifeSpan) {
         lifeSpanField = new JTextField();
         lifeSpanField.setBounds(100, 105, 150, 30);
-        txtPrompt = new TextPrompt("Vida util de la vacuna", lifeSpanField);
+        txtPrompt = new TextPrompt(String.valueOf(lifeSpan), lifeSpanField);
         this.add(lifeSpanField);
     }
 
-    private void createAddButton() {
-        JButton addButton = new JButton("Editar");
-        addButton.setBackground(GlobalView.BUTTONS_ADD_BACKGROUND);
-        addButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
-        addButton.setFocusPainted(false);
-        addButton.setBounds(50, 160, 100, 40);
-        addButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_ADD_COLOR, 2));
-        addButton.addActionListener(new ActionListener() {
+    private void createEditButton() {
+        JButton editButton = new JButton("Editar");
+        editButton.setBackground(GlobalView.BUTTONS_ADD_BACKGROUND);
+        editButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
+        editButton.setFocusPainted(false);
+        editButton.setBounds(50, 160, 100, 40);
+        editButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_ADD_COLOR, 2));
+        editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String newName = nameField.getText().trim();
+
+                if (newName.isEmpty() || lifeSpanField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese todos los campos.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int newLifeSpan = Integer.parseInt(lifeSpanField.getText());
+                Vaccine editedVaccine = new Vaccine(id, newName, newLifeSpan);
+
+                vaccinesPanel.getMainView().getPresenter().editVaccine(id, editedVaccine);
+                vaccinesPanel.loadVaccinesData();
+
+                dispose();
             }
         });
-        this.add(addButton);
+        this.add(editButton);
     }
 
     private void createCancelButton() {
@@ -88,5 +108,4 @@ public class EditVaccinePopUp extends JDialog {
         });
         this.add(cancelButton);
     }
-
 }

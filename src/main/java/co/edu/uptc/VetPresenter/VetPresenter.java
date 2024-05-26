@@ -83,8 +83,8 @@ public class VetPresenter implements VetInterface.Presenter {
     }
 
     @Override
-    public void removeVaccine(Vaccine vaccine) {
-        model.removeVaccine(vaccine);
+    public void removeVaccineById(int id) {
+        model.removeVaccineById(id);
     }
 
     @Override
