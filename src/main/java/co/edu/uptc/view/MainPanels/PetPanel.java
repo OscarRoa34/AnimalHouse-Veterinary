@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -169,6 +170,23 @@ public class PetPanel extends JPanel {
         deleteButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_REMOVE_COLOR, 2));
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                int selectedRow = petTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    selectedRow = petTable.convertRowIndexToModel(selectedRow);
+                    int id = Integer.parseInt(String.valueOf(petTable.getModel().getValueAt(selectedRow, 0)));
+
+                    int confirmation = JOptionPane.showConfirmDialog(null,
+                            "¿Estás seguro de que quieres eliminar este usuario?", "Confirmación",
+                            JOptionPane.YES_NO_OPTION);
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        mainView.getPresenter().removePetById(id);
+                        model.removeRow(selectedRow);
+                        loadPetsData();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecciona un usuario para eliminar.", "Advertencia",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
         return deleteButton;

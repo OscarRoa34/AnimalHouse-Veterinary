@@ -42,8 +42,8 @@ public class VetPresenter implements VetInterface.Presenter {
     }
 
     @Override
-    public void removePet(Pet pet) {
-        model.removePet(pet);
+    public void removePetById(int id) {
+        model.removePetById(id);
     }
 
     @Override
@@ -117,16 +117,6 @@ public class VetPresenter implements VetInterface.Presenter {
                 selectedUsers.get(0), selectedVaccines);
     }
 
-    private Person getPersonById(int userId) {
-        List<Person> users = model.getPersons();
-        for (Person person : users) {
-            if (person.getPersonId() == userId) {
-                return person;
-            }
-        }
-        return null;
-    }
-
     private Vaccine getVaccineById(int vaccineId) {
         List<Vaccine> vaccines = model.getVaccines();
 
@@ -188,6 +178,11 @@ public class VetPresenter implements VetInterface.Presenter {
 
     public List<Appointment> getAppointments() {
         return model.getAppointments();
+    }
+
+    @Override
+    public Person getPersonById(int id) {
+        return model.getPersonById(id);
     }
 
 }

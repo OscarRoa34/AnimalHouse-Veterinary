@@ -52,8 +52,13 @@ public class VetManager implements VetInterface.Model {
     }
 
     @Override
-    public void removePet(Pet pet) {
-        pets.remove(pet);
+    public void removePetById(int id) {
+        for (Pet pet : pets) {
+            if (pet.getPetId() == id) {
+                pets.remove(pet);
+                break;
+            }
+        }
     }
 
     @Override
@@ -237,4 +242,13 @@ public class VetManager implements VetInterface.Model {
         return appointments;
     }
 
+    @Override
+    public Person getPersonById(int id) {
+        for (Person person : persons) {
+            if (person.getPersonId() == id) {
+                return person;
+            }
+        }
+        return null;
+    }
 }

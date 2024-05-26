@@ -17,7 +17,7 @@ public interface VetInterface {
 
         void editPet(int petId, Pet newPet);
 
-        void removePet(Pet pet);
+        void removePetById(int id);
 
         void registerPerson(Person person);
 
@@ -48,6 +48,8 @@ public interface VetInterface {
         List<Appointment> getAppointmentsByPerson(Person person);
 
         List<Pet> getPetsWithVaccinesExpiring(LocalDate date);
+
+        Person getPersonById(int id);
     }
 
     public interface View {
@@ -67,7 +69,7 @@ public interface VetInterface {
 
         void editPet(int petId, Pet newPet);
 
-        void removePet(Pet pet);
+        void removePetById(int id);
 
         void registerPerson(Person person);
 
@@ -107,6 +109,7 @@ public interface VetInterface {
 
         void getPetsWithVaccinesExpiring(LocalDate date);
 
+        Person getPersonById(int id);
     }
 
 }
