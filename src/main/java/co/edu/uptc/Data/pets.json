@@ -13,4 +13,34 @@
     "documentNumber" : "1048710096"
   },
   "keepers" : null
+}, {
+  "petId" : 2,
+  "petName" : "Kyra",
+  "specie" : "Perro",
+  "breed" : "Criolla",
+  "petAge" : 7,
+  "owner" : {
+    "personId" : 2,
+    "personName" : "Selene ",
+    "personLastName" : "Daza",
+    "personAge" : 18,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "1051066802"
+  },
+  "keepers" : null
+}, {
+  "petId" : 3,
+  "petName" : "Max",
+  "specie" : "Perro",
+  "breed" : "Golde Retriever",
+  "petAge" : 10,
+  "owner" : {
+    "personId" : 4,
+    "personName" : "David ",
+    "personLastName" : "Aguilar",
+    "personAge" : 18,
+    "documentType" : "Cedula Extranjera",
+    "documentNumber" : "1038271461"
+  },
+  "keepers" : null
 } ]

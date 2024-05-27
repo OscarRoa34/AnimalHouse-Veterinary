@@ -11,7 +11,7 @@
   "personLastName" : "Daza",
   "personAge" : 18,
   "documentType" : "Cedula de ciudadania",
-  "documentNumber" : "1049720197"
+  "documentNumber" : "1051066802"
 }, {
   "personId" : 3,
   "personName" : "Sara",
@@ -19,4 +19,11 @@
   "personAge" : 11,
   "documentType" : "Tarjeta de identidad",
   "documentNumber" : "1150438008"
+}, {
+  "personId" : 4,
+  "personName" : "David ",
+  "personLastName" : "Aguilar",
+  "personAge" : 18,
+  "documentType" : "Cedula Extranjera",
+  "documentNumber" : "1038271461"
 } ]

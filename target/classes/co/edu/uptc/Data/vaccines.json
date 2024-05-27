@@ -2,4 +2,8 @@
   "vaccineId" : 1,
   "vaccineName" : "Rabia",
   "lifeSpan" : 365
+}, {
+  "vaccineId" : 2,
+  "vaccineName" : "Moquillo ",
+  "lifeSpan" : 150
 } ]

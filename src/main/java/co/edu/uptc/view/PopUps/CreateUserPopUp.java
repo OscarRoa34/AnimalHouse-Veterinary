@@ -27,8 +27,6 @@ public class CreateUserPopUp extends JDialog {
     private JTextField lastNameField;
     private JTextField ageField;
     private JTextField documentNumberField;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
     private PropertiesService p = new PropertiesService();
     private UserPanel userPanel;
     private static int CONTADOR_ID;
@@ -68,19 +66,19 @@ public class CreateUserPopUp extends JDialog {
 
         nameField = new JTextField();
         nameField.setBounds(100, 70, 150, 30);
-        txtPrompt = new TextPrompt("Nombre del usuario", nameField);
+        new TextPrompt("Nombre del usuario", nameField);
         this.add(nameField);
 
         lastNameField = new JTextField();
         lastNameField.setBounds(100, 120, 150, 30);
-        txtPrompt = new TextPrompt("Apellido del usuario", lastNameField);
+        new TextPrompt("Apellido del usuario", lastNameField);
         this.add(lastNameField);
     }
 
     private void createAgeField() {
         ageField = new JTextField();
         ageField.setBounds(100, 170, 150, 30);
-        txtPrompt = new TextPrompt("Edad del usuario", ageField);
+        new TextPrompt("Edad del usuario", ageField);
         ageField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -108,7 +106,7 @@ public class CreateUserPopUp extends JDialog {
     private void createDocumentNumberField() {
         documentNumberField = new JTextField();
         documentNumberField.setBounds(100, 270, 150, 30);
-        txtPrompt = new TextPrompt("Numero del documento", documentNumberField);
+        new TextPrompt("Numero del documento", documentNumberField);
         documentNumberField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {

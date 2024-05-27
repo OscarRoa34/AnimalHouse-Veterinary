@@ -52,6 +52,11 @@ public class AppointmentPanel extends JPanel {
         createUsersSearchBar();
         createUsersTable();
         createAddButton();
+        setContadorId();
+    }
+
+    private void setContadorId() {
+        AppointmentPanel.CONTADOR_ID = mainView.getPresenter().getAppointmentLastId();
     }
 
     private void createTitle() {
@@ -265,8 +270,10 @@ public class AppointmentPanel extends JPanel {
         List<Integer> selectedUserIds = new ArrayList<>();
         selectedUserIds.add(userId);
 
-        mainView.getPresenter().registerAppointment(mainView.getPresenter().createAppointment(CONTADOR_ID++,
+        mainView.getPresenter().registerAppointment(mainView.getPresenter().createAppointment(CONTADOR_ID,
                 selectedPetIds, selectedVaccineIds, selectedUserIds));
+
+        CONTADOR_ID++;
 
         mainView.getAppointmentHistoryPanel().loadAppointmentsData();
     }

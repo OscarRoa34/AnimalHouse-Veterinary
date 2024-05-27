@@ -39,16 +39,21 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
     private PropertiesService p = new PropertiesService();
 
     public MainView() throws IOException {
-        appointmentPanel = new AppointmentPanel(this);
-        vaccinesPanel = new VaccinesPanel(this);
-        appointmentHistoryPanel = new AppointmentHistoryPanel(this);
-        petPanel = new PetPanel(this);
-        userPanel = new UserPanel(this);
     }
 
     @Override
     public void setPresenter(Presenter presenter) {
         this.presenter = presenter;
+        presenter.loadAppointmentsFromJson(p.getProperties("appointmentsJson"));
+        presenter.loadVaccinesFromJson(p.getProperties("vaccinesJson"));
+        presenter.loadPersonsFromJson(p.getProperties("personsJson"));
+        presenter.loadPetsFromJson(p.getProperties("petsJson"));
+
+        appointmentPanel = new AppointmentPanel(this);
+        vaccinesPanel = new VaccinesPanel(this);
+        appointmentHistoryPanel = new AppointmentHistoryPanel(this);
+        petPanel = new PetPanel(this);
+        userPanel = new UserPanel(this);
     }
 
     public VetInterface.Presenter getPresenter() {
@@ -72,10 +77,6 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
         initGridBagLayout();
         createAsideButtons();
         createPanels();
-        presenter.loadAppointmentsFromJson(p.getProperties("appointmentsJson"));
-        presenter.loadVaccinesFromJson(p.getProperties("vaccinesJson"));
-        presenter.loadPersonsFromJson(p.getProperties("personsJson"));
-        presenter.loadPetsFromJson(p.getProperties("petsJson"));
 
         appointmentPanel.loadPersonsData();
         appointmentPanel.loadPetsData();

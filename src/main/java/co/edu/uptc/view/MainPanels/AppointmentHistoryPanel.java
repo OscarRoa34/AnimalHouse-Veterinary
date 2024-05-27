@@ -24,8 +24,6 @@ public class AppointmentHistoryPanel extends JPanel {
 
     private JTextField searchField;
     private JTable appointmentHistoryTable;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
     private MainView mainView;
     private DefaultTableModel model;
     private PropertiesService p = new PropertiesService();
@@ -57,7 +55,7 @@ public class AppointmentHistoryPanel extends JPanel {
 
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 30));
-        txtPrompt = new TextPrompt("Nombre del dueño o responsable", searchField);
+        new TextPrompt("Nombre del dueño o responsable", searchField);
         searchBarPanel.add(searchField, BorderLayout.CENTER);
 
         JButton searchButton = new JButton("Buscar");
@@ -182,7 +180,8 @@ public class AppointmentHistoryPanel extends JPanel {
                     appointment.getAppointmentDate(),
                     appointment.getPet().getPetName(),
                     appointment.getVaccineNames(),
-                    appointment.getResponsible().getPersonName()
+                    appointment.getResponsible().getPersonName() + " "
+                            + appointment.getResponsible().getPersonLastName()
             });
         }
     }

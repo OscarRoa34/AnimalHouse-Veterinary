@@ -20,9 +20,7 @@ public class Main {
         }
 
         presenter.setView(view);
-
         presenter.setModel(model);
-
         view.setPresenter(presenter);
 
         view.begin();

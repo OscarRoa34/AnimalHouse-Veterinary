@@ -168,13 +168,6 @@ public class VetManager implements VetInterface.Model {
         return petsWithVaccinesExpiring;
     }
 
-    public int getUserLastId() {
-        if (persons == null || persons.isEmpty()) {
-            return -1;
-        }
-        return persons.get(persons.size() - 1).getPersonId() + 1;
-    }
-
     @Override
     public void saveAppointmentsToJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -300,4 +293,37 @@ public class VetManager implements VetInterface.Model {
         }
         return null;
     }
+
+    @Override
+    public int getUserLastId() {
+        if (persons == null || persons.isEmpty()) {
+            return -1;
+        }
+        return persons.get(persons.size() - 1).getPersonId() + 1;
+    }
+
+    @Override
+    public int getPetLastId() {
+        if (pets == null || pets.isEmpty()) {
+            return -1;
+        }
+        return pets.get(pets.size() - 1).getPetId() + 1;
+    }
+
+    @Override
+    public int getVaccineLastId() {
+        if (vaccines == null || vaccines.isEmpty()) {
+            return -1;
+        }
+        return vaccines.get(vaccines.size() - 1).getVaccineId() + 1;
+    }
+
+    @Override
+    public int getAppointmentLastId() {
+        if (appointments == null || appointments.isEmpty()) {
+            return 0;
+        }
+        return appointments.get(appointments.size() - 1).getAppointmentId() + 1;
+    }
+
 }

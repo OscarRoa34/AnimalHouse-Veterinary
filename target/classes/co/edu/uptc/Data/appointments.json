@@ -18,17 +18,21 @@
     "keepers" : null
   },
   "responsible" : {
-    "personId" : 1,
-    "personName" : "Oscar",
+    "personId" : 3,
+    "personName" : "Sara",
     "personLastName" : "Roa",
-    "personAge" : 19,
-    "documentType" : "Cedula de ciudadania",
-    "documentNumber" : "1048710096"
+    "personAge" : 11,
+    "documentType" : "Tarjeta de identidad",
+    "documentNumber" : "1150438008"
   },
   "vaccines" : [ {
     "vaccineId" : 1,
     "vaccineName" : "Rabia",
     "lifeSpan" : 365
+  }, {
+    "vaccineId" : 2,
+    "vaccineName" : "Moquillo ",
+    "lifeSpan" : 150
   } ],
-  "vaccineNames" : "Rabia"
+  "vaccineNames" : "Rabia, Moquillo "
 } ]

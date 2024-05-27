@@ -72,6 +72,12 @@ public interface VetInterface {
 
         int getUserLastId();
 
+        int getPetLastId();
+
+        int getVaccineLastId();
+
+        int getAppointmentLastId();
+
     }
 
     public interface View {
@@ -152,6 +158,12 @@ public interface VetInterface {
         void loadPetsFromJson(String filePath);
 
         int getUserLastId();
+
+        int getPetLastId();
+
+        int getVaccineLastId();
+
+        int getAppointmentLastId();
     }
 
 }

@@ -258,4 +258,19 @@ public class VetPresenter implements VetInterface.Presenter {
         return model.getUserLastId();
     }
 
+    @Override
+    public int getPetLastId() {
+        return model.getPetLastId();
+    }
+
+    @Override
+    public int getVaccineLastId() {
+        return model.getVaccineLastId();
+    }
+
+    @Override
+    public int getAppointmentLastId() {
+        return model.getAppointmentLastId();
+    }
+
 }

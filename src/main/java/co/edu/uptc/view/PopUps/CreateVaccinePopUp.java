@@ -24,10 +24,8 @@ import co.edu.uptc.view.MainPanels.VaccinesPanel;
 public class CreateVaccinePopUp extends JDialog {
     private JTextField nameField;
     private JTextField lifeSpanField;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
     private PropertiesService p = new PropertiesService();
-    private static int CONTADOR_ID = 1;
+    private static int CONTADOR_ID;
     private VaccinesPanel vaccinesPanel;
 
     public CreateVaccinePopUp(VaccinesPanel vaccinesPanel) throws IOException {
@@ -44,6 +42,11 @@ public class CreateVaccinePopUp extends JDialog {
         createLifeSpanField();
         createAddButton();
         createCancelButton();
+        setContadorId();
+    }
+
+    private void setContadorId() {
+        CreateVaccinePopUp.CONTADOR_ID = vaccinesPanel.getMainView().getPresenter().getVaccineLastId();
     }
 
     private void createNameField() {
@@ -56,14 +59,14 @@ public class CreateVaccinePopUp extends JDialog {
 
         nameField = new JTextField();
         nameField.setBounds(100, 60, 150, 30);
-        txtPrompt = new TextPrompt("Nombre de la vacuna", nameField);
+        new TextPrompt("Nombre de la vacuna", nameField);
         this.add(nameField);
     }
 
     private void createLifeSpanField() {
         lifeSpanField = new JTextField();
         lifeSpanField.setBounds(100, 105, 150, 30);
-        txtPrompt = new TextPrompt("Vida útil de la vacuna", lifeSpanField);
+        new TextPrompt("Vida útil de la vacuna", lifeSpanField);
         lifeSpanField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
