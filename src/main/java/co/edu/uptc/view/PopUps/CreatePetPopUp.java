@@ -37,7 +37,7 @@ public class CreatePetPopUp extends JDialog {
     @SuppressWarnings("unused")
     private TextPrompt txtPrompt;
     private PetPanel petPanel;
-    private static int CONTADOR_ID = 1;
+    private static int CONTADOR_ID;
     private PropertiesService p = new PropertiesService();
     private JTable personTable;
     private DefaultTableModel tableModel;
@@ -60,6 +60,7 @@ public class CreatePetPopUp extends JDialog {
         createPersonTable();
         createAddButton();
         createCancelButton();
+
     }
 
     private void createNameField() {

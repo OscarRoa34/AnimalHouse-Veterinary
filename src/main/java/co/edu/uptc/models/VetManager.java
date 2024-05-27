@@ -168,6 +168,13 @@ public class VetManager implements VetInterface.Model {
         return petsWithVaccinesExpiring;
     }
 
+    public int getUserLastId() {
+        if (persons == null || persons.isEmpty()) {
+            return -1;
+        }
+        return persons.get(persons.size() - 1).getPersonId() + 1;
+    }
+
     @Override
     public void saveAppointmentsToJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -187,7 +194,7 @@ public class VetManager implements VetInterface.Model {
         } else {
             appointments = new ArrayList<>();
             file.createNewFile();
-            saveAppointmentsToJson(filePath); // Guardar la lista vacía al archivo
+            saveAppointmentsToJson(filePath);
         }
     }
 
@@ -208,7 +215,7 @@ public class VetManager implements VetInterface.Model {
         } else {
             vaccines = new ArrayList<>();
             file.createNewFile();
-            saveVaccinesToJson(filePath); // Guardar la lista vacía al archivo
+            saveVaccinesToJson(filePath);
         }
     }
 
@@ -229,7 +236,7 @@ public class VetManager implements VetInterface.Model {
         } else {
             persons = new ArrayList<>();
             file.createNewFile();
-            savePersonsToJson(filePath); // Guardar la lista vacía al archivo
+            savePersonsToJson(filePath);
         }
     }
 
@@ -250,7 +257,7 @@ public class VetManager implements VetInterface.Model {
         } else {
             pets = new ArrayList<>();
             file.createNewFile();
-            savePetsToJson(filePath); // Guardar la lista vacía al archivo
+            savePetsToJson(filePath);
         }
     }
 

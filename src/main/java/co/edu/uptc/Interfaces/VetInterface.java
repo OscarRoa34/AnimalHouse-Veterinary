@@ -70,6 +70,8 @@ public interface VetInterface {
 
         void loadPetsFromJson(String filePath) throws IOException;
 
+        int getUserLastId();
+
     }
 
     public interface View {
@@ -148,6 +150,8 @@ public interface VetInterface {
         void savePetsToJson(String filePath);
 
         void loadPetsFromJson(String filePath);
+
+        int getUserLastId();
     }
 
 }

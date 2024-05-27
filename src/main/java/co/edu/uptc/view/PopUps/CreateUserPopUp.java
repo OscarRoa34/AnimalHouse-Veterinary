@@ -31,7 +31,7 @@ public class CreateUserPopUp extends JDialog {
     private TextPrompt txtPrompt;
     private PropertiesService p = new PropertiesService();
     private UserPanel userPanel;
-    private static int CONTADOR_ID = 1;
+    private static int CONTADOR_ID;
     private JComboBox<String> documentComboBox;
 
     public CreateUserPopUp(UserPanel userPanel) throws IOException {
@@ -51,6 +51,11 @@ public class CreateUserPopUp extends JDialog {
         createDocumentNumberField();
         createAddButton();
         createCancelButton();
+        setContadorId();
+    }
+
+    private void setContadorId() {
+        CreateUserPopUp.CONTADOR_ID = userPanel.getMainView().getPresenter().getUserLastId();
     }
 
     private void createNameField() {
@@ -139,7 +144,7 @@ public class CreateUserPopUp extends JDialog {
 
                 int personAge = Integer.parseInt(ageText);
                 userPanel.getMainView().getPresenter().registerPerson(userPanel.getMainView().getPresenter()
-                        .createPerson(CONTADOR_ID++, personName, personLastName, personAge, docType, docNumber));
+                        .createPerson(CONTADOR_ID, personName, personLastName, personAge, docType, docNumber));
                 userPanel.loadPersonsData();
 
                 dispose();

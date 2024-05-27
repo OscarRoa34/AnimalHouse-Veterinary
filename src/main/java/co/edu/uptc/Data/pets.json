@@ -1,0 +1,16 @@
+[ {
+  "petId" : 1,
+  "petName" : "Temis",
+  "specie" : "Gato",
+  "breed" : "Criolla",
+  "petAge" : 4,
+  "owner" : {
+    "personId" : 1,
+    "personName" : "Oscar",
+    "personLastName" : "Roa",
+    "personAge" : 19,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "1048710096"
+  },
+  "keepers" : null
+} ]

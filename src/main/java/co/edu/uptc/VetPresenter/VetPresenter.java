@@ -253,4 +253,9 @@ public class VetPresenter implements VetInterface.Presenter {
         }
     }
 
+    @Override
+    public int getUserLastId() {
+        return model.getUserLastId();
+    }
+
 }

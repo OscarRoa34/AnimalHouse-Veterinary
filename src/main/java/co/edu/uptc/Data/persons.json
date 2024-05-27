@@ -1,0 +1,22 @@
+[ {
+  "personId" : 1,
+  "personName" : "Oscar",
+  "personLastName" : "Roa",
+  "personAge" : 19,
+  "documentType" : "Cedula de ciudadania",
+  "documentNumber" : "1048710096"
+}, {
+  "personId" : 2,
+  "personName" : "Selene ",
+  "personLastName" : "Daza",
+  "personAge" : 18,
+  "documentType" : "Cedula de ciudadania",
+  "documentNumber" : "1049720197"
+}, {
+  "personId" : 3,
+  "personName" : "Sara",
+  "personLastName" : "Roa",
+  "personAge" : 11,
+  "documentType" : "Tarjeta de identidad",
+  "documentNumber" : "1150438008"
+} ]
