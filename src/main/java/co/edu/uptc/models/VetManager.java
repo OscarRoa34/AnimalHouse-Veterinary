@@ -33,6 +33,7 @@ public class VetManager implements VetInterface.Model {
         this.presenter = presenter;
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Override
     public void registerPet(Pet pet) {
         if (pet != null && !pets.equals(pet)) {

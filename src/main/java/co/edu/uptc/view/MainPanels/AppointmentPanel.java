@@ -38,7 +38,7 @@ public class AppointmentPanel extends JPanel {
     private DefaultTableModel modelPets;
     private DefaultTableModel modelVaccines;
     private DefaultTableModel modelUsers;
-    private static int CONTADOR_ID = 1;
+    private static int CONTADOR_ID;
 
     public AppointmentPanel(MainView mainView) {
         this.mainView = mainView;
