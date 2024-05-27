@@ -125,24 +125,24 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
 
     private void createAsideButtons() {
         petButton = new AsideButton("Mascotas", new ImageIcon(p.getProperties("petsImage")));
-        petButton.setBounds(50, 173, 200, 60);
+        petButton.setBounds(50, 160, 200, 70);
         petButton.addActionListener(this);
 
         appointmentButton = new AsideButton("Citas", new ImageIcon(p.getProperties("appointmentsImage")));
-        appointmentButton.setBounds(50, 258, 200, 60);
+        appointmentButton.setBounds(50, 245, 200, 70);
         appointmentButton.addActionListener(this);
 
         vaccineButton = new AsideButton("Vacunas", new ImageIcon(p.getProperties("vaccinesImage")));
-        vaccineButton.setBounds(50, 343, 200, 60);
+        vaccineButton.setBounds(50, 330, 200, 70);
         vaccineButton.addActionListener(this);
 
         appointmentHistoryButton = new AsideButton("Historial de citas",
                 new ImageIcon(p.getProperties("appointmentHistoryImage")));
-        appointmentHistoryButton.setBounds(50, 428, 200, 60);
+        appointmentHistoryButton.setBounds(50, 415, 200, 70);
         appointmentHistoryButton.addActionListener(this);
 
         usersButton = new AsideButton("Usuarios", new ImageIcon(p.getProperties("usersImage")));
-        usersButton.setBounds(50, 513, 200, 60);
+        usersButton.setBounds(50, 500, 200, 70);
         usersButton.addActionListener(this);
 
         asidePanel.add(petButton);

@@ -43,4 +43,19 @@
     "documentNumber" : "1038271461"
   },
   "keepers" : null
+}, {
+  "petId" : 4,
+  "petName" : "Lolita",
+  "specie" : "Gato",
+  "breed" : "Siames",
+  "petAge" : 6,
+  "owner" : {
+    "personId" : 1,
+    "personName" : "Oscar",
+    "personLastName" : "Roa",
+    "personAge" : 19,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "1048710096"
+  },
+  "keepers" : null
 } ]
