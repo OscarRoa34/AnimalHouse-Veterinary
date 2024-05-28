@@ -139,24 +139,6 @@ public class VetPresenter implements VetInterface.Presenter {
         model.removeAppointment(appointment);
     }
 
-    // @Override
-    public void getAppointmentsByDate(LocalDate date) {
-        // List<Appointment> appointments = model.getAppointmentsByDate(date);
-        // view.showAppointmentsByDate(appointments);
-    }
-
-    // @Override
-    public void getAppointmentsByPerson(Person person) {
-        // List<Appointment> appointments = model.getAppointmentsByPerson(person);
-        // view.showAppointmentsByPerson(appointments);
-    }
-
-    // @Override
-    public void getPetsWithVaccinesExpiring(LocalDate date) {
-        // List<Pet> pets = model.getPetsWithVaccinesExpiring(date);
-        // view.showPetsWithVaccinesExpiring(pets);
-    }
-
     @Override
     public List<Pet> getPets() {
         return model.getPets();

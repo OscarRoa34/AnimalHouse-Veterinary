@@ -2,7 +2,6 @@ package co.edu.uptc.models;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,45 +127,6 @@ public class VetManager implements VetInterface.Model {
     @Override
     public void removeAppointment(Appointment appointment) {
         appointments.remove(appointment);
-    }
-
-    @Override
-    public List<Appointment> getAppointmentsByDate(LocalDate date) {
-        List<Appointment> appointmentsByDate = new ArrayList<>();
-
-        for (Appointment appointment : appointments) {
-            if (appointment.getAppointmentDate().isEqual(date)) {
-                appointmentsByDate.add(appointment);
-            }
-        }
-        return appointmentsByDate;
-    }
-
-    @Override
-    public List<Appointment> getAppointmentsByPerson(Person person) {
-        List<Appointment> appointmentsByPerson = new ArrayList<>();
-
-        for (Appointment appointment : appointments) {
-            if (appointment.getResponsible().equals(person)) {
-                appointmentsByPerson.add(appointment);
-            }
-        }
-        return appointmentsByPerson;
-    }
-
-    @Override
-    public List<Pet> getPetsWithVaccinesExpiring(LocalDate date) {
-        List<Pet> petsWithVaccinesExpiring = new ArrayList<>();
-
-        for (Appointment appointment : appointments) {
-            for (LocalDate expireDate : appointment.calculateVaccineExpireDates()) {
-                if (expireDate.isEqual(date)) {
-                    petsWithVaccinesExpiring.add(appointment.getPet());
-                    break;
-                }
-            }
-        }
-        return petsWithVaccinesExpiring;
     }
 
     @Override

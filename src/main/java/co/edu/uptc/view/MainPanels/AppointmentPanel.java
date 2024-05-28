@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import co.edu.uptc.Utils.TextPrompt;
 import co.edu.uptc.models.Person;
@@ -38,7 +42,7 @@ public class AppointmentPanel extends JPanel {
     private DefaultTableModel modelPets;
     private DefaultTableModel modelVaccines;
     private DefaultTableModel modelUsers;
-    private static int CONTADOR_ID;
+    private static int ID_COUNTER;
 
     public AppointmentPanel(MainView mainView) {
         this.mainView = mainView;
@@ -56,7 +60,7 @@ public class AppointmentPanel extends JPanel {
     }
 
     private void setContadorId() {
-        AppointmentPanel.CONTADOR_ID = mainView.getPresenter().getAppointmentLastId();
+        AppointmentPanel.ID_COUNTER = mainView.getPresenter().getAppointmentLastId();
     }
 
     private void createTitle() {
@@ -86,13 +90,15 @@ public class AppointmentPanel extends JPanel {
         searchBarPanel.add(searchButton, BorderLayout.EAST);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String searchText = petSearchField.getText().trim();
+                filterPetsTable(searchText);
             }
         });
         this.add(searchBarPanel);
     }
 
     private void createPetTable() {
-        String[] columnNames = { "ID", "Nombre", "Especie", "Raza", "Dueño" };
+        String[] columnNames = { "ID", "Nombre", "Especie", "Raza" };
         modelPets = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -117,7 +123,6 @@ public class AppointmentPanel extends JPanel {
                     pet.getPetName(),
                     pet.getSpecie(),
                     pet.getBreed(),
-                    pet.getOwner().getPersonName()
             });
         }
     }
@@ -140,6 +145,8 @@ public class AppointmentPanel extends JPanel {
         searchBarPanel.add(searchButton, BorderLayout.EAST);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String searchText = vaccineSearchField.getText().trim();
+                filterVaccinesTable(searchText);
             }
         });
         this.add(searchBarPanel);
@@ -183,6 +190,23 @@ public class AppointmentPanel extends JPanel {
         userSearchField.setPreferredSize(new Dimension(200, 30));
         new TextPrompt("Documento del usuario", userSearchField);
         searchBarPanel.add(userSearchField, BorderLayout.CENTER);
+        userSearchField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
 
         JButton searchButton = new JButton("Buscar");
         searchButton.setFocusPainted(false);
@@ -191,6 +215,8 @@ public class AppointmentPanel extends JPanel {
         searchBarPanel.add(searchButton, BorderLayout.EAST);
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String searchText = userSearchField.getText().trim();
+                filterUsersTable(searchText);
             }
         });
         this.add(searchBarPanel);
@@ -270,12 +296,46 @@ public class AppointmentPanel extends JPanel {
         List<Integer> selectedUserIds = new ArrayList<>();
         selectedUserIds.add(userId);
 
-        mainView.getPresenter().registerAppointment(mainView.getPresenter().createAppointment(CONTADOR_ID,
+        mainView.getPresenter().registerAppointment(mainView.getPresenter().createAppointment(ID_COUNTER,
                 selectedPetIds, selectedVaccineIds, selectedUserIds));
 
-        CONTADOR_ID++;
+        ID_COUNTER++;
 
         mainView.getAppointmentHistoryPanel().loadAppointmentsData();
+    }
+
+    private void filterUsersTable(String searchText) {
+        DefaultTableModel tableModel = (DefaultTableModel) usersTable.getModel();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
+        usersTable.setRowSorter(tableRowSorter);
+
+        if (searchText.length() == 0) {
+            tableRowSorter.setRowFilter(null);
+        } else {
+            tableRowSorter.setRowFilter(RowFilter.regexFilter("^" + searchText + "$"));
+        }
+    }
+
+    private void filterVaccinesTable(String searchText) {
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(modelUsers);
+        vaccinesTable.setRowSorter(tableRowSorter);
+
+        if (searchText.length() == 0) {
+            tableRowSorter.setRowFilter(null);
+        } else {
+            tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
+        }
+    }
+
+    private void filterPetsTable(String searchText) {
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(modelPets);
+        petTable.setRowSorter(tableRowSorter);
+
+        if (searchText.length() == 0) {
+            tableRowSorter.setRowFilter(null);
+        } else {
+            tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
+        }
     }
 
 }

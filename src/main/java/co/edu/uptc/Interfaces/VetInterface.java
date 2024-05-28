@@ -1,7 +1,6 @@
 package co.edu.uptc.Interfaces;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import co.edu.uptc.models.Appointment;
@@ -43,12 +42,6 @@ public interface VetInterface {
         List<Vaccine> getVaccines();
 
         List<Appointment> getAppointments();
-
-        List<Appointment> getAppointmentsByDate(LocalDate date);
-
-        List<Appointment> getAppointmentsByPerson(Person person);
-
-        List<Pet> getPetsWithVaccinesExpiring(LocalDate date);
 
         Person getPersonById(int id);
 
@@ -130,12 +123,6 @@ public interface VetInterface {
         List<Vaccine> getVaccines();
 
         List<Appointment> getAppointments();
-
-        void getAppointmentsByDate(LocalDate date);
-
-        void getAppointmentsByPerson(Person person);
-
-        void getPetsWithVaccinesExpiring(LocalDate date);
 
         Person getPersonById(int id);
 

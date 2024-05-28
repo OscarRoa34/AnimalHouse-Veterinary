@@ -25,7 +25,7 @@ public class CreateVaccinePopUp extends JDialog {
     private JTextField nameField;
     private JTextField lifeSpanField;
     private PropertiesService p = new PropertiesService();
-    private static int CONTADOR_ID;
+    private static int ID_COUNTER;
     private VaccinesPanel vaccinesPanel;
 
     public CreateVaccinePopUp(VaccinesPanel vaccinesPanel) throws IOException {
@@ -46,7 +46,7 @@ public class CreateVaccinePopUp extends JDialog {
     }
 
     private void setContadorId() {
-        CreateVaccinePopUp.CONTADOR_ID = vaccinesPanel.getMainView().getPresenter().getVaccineLastId();
+        CreateVaccinePopUp.ID_COUNTER = vaccinesPanel.getMainView().getPresenter().getVaccineLastId();
     }
 
     private void createNameField() {
@@ -98,7 +98,7 @@ public class CreateVaccinePopUp extends JDialog {
                 int vaccineLifeSpan = Integer.parseInt(lifeSpanText);
 
                 vaccinesPanel.getMainView().getPresenter().registerVaccine(
-                        vaccinesPanel.getMainView().getPresenter().createVaccine(CONTADOR_ID++, vaccineName,
+                        vaccinesPanel.getMainView().getPresenter().createVaccine(ID_COUNTER++, vaccineName,
                                 vaccineLifeSpan));
                 vaccinesPanel.loadVaccinesData();
                 dispose();

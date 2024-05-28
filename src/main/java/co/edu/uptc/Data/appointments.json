@@ -109,4 +109,37 @@
     "lifeSpan" : 150
   } ],
   "vaccineNames" : "Rabia, Moquillo "
+}, {
+  "appointmentId" : 4,
+  "appointmentDate" : [ 2024, 5, 28 ],
+  "pet" : {
+    "petId" : 3,
+    "petName" : "Max",
+    "specie" : "Perro",
+    "breed" : "Golde Retriever",
+    "petAge" : 10,
+    "owner" : {
+      "personId" : 4,
+      "personName" : "David ",
+      "personLastName" : "Aguilar",
+      "personAge" : 18,
+      "documentType" : "Cedula Extranjera",
+      "documentNumber" : "1038271461"
+    },
+    "keepers" : null
+  },
+  "responsible" : {
+    "personId" : 4,
+    "personName" : "David ",
+    "personLastName" : "Aguilar",
+    "personAge" : 18,
+    "documentType" : "Cedula Extranjera",
+    "documentNumber" : "1038271461"
+  },
+  "vaccines" : [ {
+    "vaccineId" : 1,
+    "vaccineName" : "Rabia",
+    "lifeSpan" : 365
+  } ],
+  "vaccineNames" : "Rabia"
 } ]

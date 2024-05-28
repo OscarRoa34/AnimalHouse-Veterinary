@@ -37,7 +37,7 @@ public class CreatePetPopUp extends JDialog {
     @SuppressWarnings("unused")
     private TextPrompt txtPrompt;
     private PetPanel petPanel;
-    private static int CONTADOR_ID;
+    private static int ID_COUNTER;
     private PropertiesService p = new PropertiesService();
     private JTable personTable;
     private DefaultTableModel tableModel;
@@ -64,7 +64,7 @@ public class CreatePetPopUp extends JDialog {
     }
 
     private void setContadorId() {
-        CreatePetPopUp.CONTADOR_ID = petPanel.getMainView().getPresenter().getPetLastId();
+        CreatePetPopUp.ID_COUNTER = petPanel.getMainView().getPresenter().getPetLastId();
     }
 
     private void createNameField() {
@@ -158,7 +158,7 @@ public class CreatePetPopUp extends JDialog {
                 int personId = Integer.parseInt(String.valueOf(tableModel.getValueAt(selectedRow, 0)));
 
                 petPanel.getMainView().getPresenter()
-                        .registerPet(petPanel.getMainView().getPresenter().createPet(CONTADOR_ID, petName, specie,
+                        .registerPet(petPanel.getMainView().getPresenter().createPet(ID_COUNTER, petName, specie,
                                 breed, petAge, petPanel.getMainView().getPresenter().getPersonById(personId)));
                 petPanel.loadPetsData();
                 dispose();
