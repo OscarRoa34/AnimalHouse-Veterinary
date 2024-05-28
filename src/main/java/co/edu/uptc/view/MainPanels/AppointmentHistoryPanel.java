@@ -67,6 +67,7 @@ public class AppointmentHistoryPanel extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                filterAppointmentsByOwner(searchField.getText());
             }
         });
         searchBarPanel.add(searchButton, BorderLayout.EAST);
@@ -152,13 +153,10 @@ public class AppointmentHistoryPanel extends JPanel {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Calendar selectedCalendar = calendar.getCalendar(); // Obtenemos el Calendar del JCalendar
-                Date selectedDate = selectedCalendar.getTime(); // Obtenemos la fecha seleccionada
-                LocalDate localDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertimos
-                                                                                                             // la fecha
-                                                                                                             // a
-                                                                                                             // LocalDate
-                filterAppointmentsByDate(localDate); // Filtramos las citas por la fecha seleccionada
+                Calendar selectedCalendar = calendar.getCalendar();
+                Date selectedDate = selectedCalendar.getTime();
+                LocalDate localDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                filterAppointmentsByDate(localDate);
                 dialog.dispose();
             }
         });
@@ -178,7 +176,6 @@ public class AppointmentHistoryPanel extends JPanel {
 
     public void filterAppointmentsByDate(LocalDate selectedDate) {
         List<Appointment> appointments = mainView.getPresenter().getAppointments();
-
         model.setRowCount(0);
         for (Appointment appointment : appointments) {
             LocalDate appointmentDate = appointment.getAppointmentDate();
@@ -195,9 +192,26 @@ public class AppointmentHistoryPanel extends JPanel {
         }
     }
 
+    public void filterAppointmentsByOwner(String ownerName) {
+        List<Appointment> appointments = mainView.getPresenter().getAppointments();
+        model.setRowCount(0);
+        for (Appointment appointment : appointments) {
+            String fullName = appointment.getResponsible().getPersonName() + " "
+                    + appointment.getResponsible().getPersonLastName();
+            if (fullName.toLowerCase().contains(ownerName.toLowerCase())) {
+                model.addRow(new Object[] {
+                        appointment.getAppointmentId(),
+                        appointment.getAppointmentDate(),
+                        appointment.getPet().getPetName(),
+                        appointment.getVaccineNames(),
+                        fullName
+                });
+            }
+        }
+    }
+
     public void loadAppointmentsData() {
         List<Appointment> appointments = mainView.getPresenter().getAppointments();
-
         model.setRowCount(0);
         for (Appointment appointment : appointments) {
             model.addRow(new Object[] {
