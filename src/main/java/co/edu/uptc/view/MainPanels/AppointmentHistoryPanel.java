@@ -42,6 +42,7 @@ public class AppointmentHistoryPanel extends JPanel {
         createAppointmentHistoryTable();
         addCalendarButton();
         createVaccineFilterButton();
+        createResetFiltersButton();
     }
 
     private void createTitle() {
@@ -194,6 +195,27 @@ public class AppointmentHistoryPanel extends JPanel {
             }
         });
         this.add(vaccineFilterButton);
+    }
+
+    private void createResetFiltersButton() {
+        JButton resetFiltersButton = new JButton("Resetear Filtros");
+        resetFiltersButton.setBackground(GlobalView.BUTTONS_REMOVE_BACKGROUND);
+        resetFiltersButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
+        resetFiltersButton.setFocusPainted(false);
+        resetFiltersButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_REMOVE_COLOR, 2));
+        resetFiltersButton.setBounds(340, 600, 200, 30);
+        resetFiltersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetFilters();
+            }
+        });
+        this.add(resetFiltersButton);
+    }
+
+    public void resetFilters() {
+        searchField.setText("");
+        loadAppointmentsData();
     }
 
     public void filterAppointmentsByDate(LocalDate selectedDate) {

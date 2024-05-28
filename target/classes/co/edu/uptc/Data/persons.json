@@ -1,1 +1,50 @@
-[]
+[ {
+  "personId" : 1,
+  "personName" : "Oscar",
+  "personLastName" : "Roa ",
+  "personAge" : 19,
+  "documentType" : "Cedula de ciudadania",
+  "documentNumber" : "1048710096"
+}, {
+  "personId" : 2,
+  "personName" : "Sara",
+  "personLastName" : "Roa",
+  "personAge" : 11,
+  "documentType" : "Tarjeta de identidad",
+  "documentNumber" : "1150438008"
+}, {
+  "personId" : 3,
+  "personName" : "David",
+  "personLastName" : "Aguilar",
+  "personAge" : 18,
+  "documentType" : "Cedula de ciudadania",
+  "documentNumber" : "1048123711"
+}, {
+  "personId" : 4,
+  "personName" : "Selene ",
+  "personLastName" : "Daza",
+  "personAge" : 18,
+  "documentType" : "Cedula de ciudadania",
+  "documentNumber" : "1051066802"
+}, {
+  "personId" : 5,
+  "personName" : "Juan ",
+  "personLastName" : "Herrera",
+  "personAge" : 18,
+  "documentType" : "Pasaporte",
+  "documentNumber" : "1823123711"
+}, {
+  "personId" : 6,
+  "personName" : "Diomedes",
+  "personLastName" : "Diaz",
+  "personAge" : 57,
+  "documentType" : "Cedula de ciudadania",
+  "documentNumber" : "9848391"
+}, {
+  "personId" : 7,
+  "personName" : "Zuly",
+  "personLastName" : "Triana",
+  "personAge" : 44,
+  "documentType" : "Cedula Extranjera",
+  "documentNumber" : "172737127"
+} ]

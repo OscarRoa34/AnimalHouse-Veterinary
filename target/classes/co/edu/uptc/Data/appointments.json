@@ -1,1 +1,255 @@
-[]
+[ {
+  "appointmentId" : 1,
+  "appointmentDate" : [ 2024, 5, 28 ],
+  "pet" : {
+    "petId" : 8,
+    "petName" : "Firulais",
+    "specie" : "Perro",
+    "breed" : "Chandoso",
+    "petAge" : 15,
+    "owner" : {
+      "personId" : 3,
+      "personName" : "David",
+      "personLastName" : "Aguilar",
+      "personAge" : 18,
+      "documentType" : "Cedula de ciudadania",
+      "documentNumber" : "1048123711"
+    },
+    "keepers" : null
+  },
+  "responsible" : {
+    "personId" : 3,
+    "personName" : "David",
+    "personLastName" : "Aguilar",
+    "personAge" : 18,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "1048123711"
+  },
+  "vaccines" : [ {
+    "vaccineId" : 7,
+    "vaccineName" : "Lyme",
+    "lifeSpan" : 125
+  } ],
+  "vaccineNames" : "Lyme",
+  "earliestVaccineExpiryDate" : [ 2024, 9, 30 ]
+}, {
+  "appointmentId" : 2,
+  "appointmentDate" : [ 2024, 5, 28 ],
+  "pet" : {
+    "petId" : 7,
+    "petName" : "Sasuolo",
+    "specie" : "Perro",
+    "breed" : "Caniche",
+    "petAge" : 13,
+    "owner" : {
+      "personId" : 5,
+      "personName" : "Juan ",
+      "personLastName" : "Herrera",
+      "personAge" : 18,
+      "documentType" : "Pasaporte",
+      "documentNumber" : "1823123711"
+    },
+    "keepers" : null
+  },
+  "responsible" : {
+    "personId" : 5,
+    "personName" : "Juan ",
+    "personLastName" : "Herrera",
+    "personAge" : 18,
+    "documentType" : "Pasaporte",
+    "documentNumber" : "1823123711"
+  },
+  "vaccines" : [ {
+    "vaccineId" : 4,
+    "vaccineName" : "Leptopiro",
+    "lifeSpan" : 5
+  }, {
+    "vaccineId" : 5,
+    "vaccineName" : "Tos",
+    "lifeSpan" : 75
+  } ],
+  "vaccineNames" : "Leptopiro, Tos",
+  "earliestVaccineExpiryDate" : [ 2024, 6, 2 ]
+}, {
+  "appointmentId" : 3,
+  "appointmentDate" : [ 2024, 5, 28 ],
+  "pet" : {
+    "petId" : 2,
+    "petName" : "Kyra",
+    "specie" : "Perro",
+    "breed" : "Criolla",
+    "petAge" : 7,
+    "owner" : {
+      "personId" : 4,
+      "personName" : "Selene ",
+      "personLastName" : "Daza",
+      "personAge" : 18,
+      "documentType" : "Cedula de ciudadania",
+      "documentNumber" : "1051066802"
+    },
+    "keepers" : null
+  },
+  "responsible" : {
+    "personId" : 4,
+    "personName" : "Selene ",
+    "personLastName" : "Daza",
+    "personAge" : 18,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "1051066802"
+  },
+  "vaccines" : [ {
+    "vaccineId" : 1,
+    "vaccineName" : "Rabia",
+    "lifeSpan" : 150
+  }, {
+    "vaccineId" : 2,
+    "vaccineName" : "Moquillo",
+    "lifeSpan" : 7
+  } ],
+  "vaccineNames" : "Rabia, Moquillo",
+  "earliestVaccineExpiryDate" : [ 2024, 6, 4 ]
+}, {
+  "appointmentId" : 4,
+  "appointmentDate" : [ 2024, 5, 28 ],
+  "pet" : {
+    "petId" : 5,
+    "petName" : "Tom",
+    "specie" : "Gato",
+    "breed" : "Siames",
+    "petAge" : 5,
+    "owner" : {
+      "personId" : 2,
+      "personName" : "Sara",
+      "personLastName" : "Roa",
+      "personAge" : 11,
+      "documentType" : "Tarjeta de identidad",
+      "documentNumber" : "1150438008"
+    },
+    "keepers" : null
+  },
+  "responsible" : {
+    "personId" : 1,
+    "personName" : "Oscar",
+    "personLastName" : "Roa ",
+    "personAge" : 19,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "1048710096"
+  },
+  "vaccines" : [ {
+    "vaccineId" : 6,
+    "vaccineName" : "Panleuco",
+    "lifeSpan" : 365
+  } ],
+  "vaccineNames" : "Panleuco",
+  "earliestVaccineExpiryDate" : [ 2025, 5, 28 ]
+}, {
+  "appointmentId" : 5,
+  "appointmentDate" : [ 2024, 5, 28 ],
+  "pet" : {
+    "petId" : 6,
+    "petName" : "Big Smoke",
+    "specie" : "Gato",
+    "breed" : "Persa",
+    "petAge" : 10,
+    "owner" : {
+      "personId" : 1,
+      "personName" : "Oscar",
+      "personLastName" : "Roa ",
+      "personAge" : 19,
+      "documentType" : "Cedula de ciudadania",
+      "documentNumber" : "1048710096"
+    },
+    "keepers" : null
+  },
+  "responsible" : {
+    "personId" : 1,
+    "personName" : "Oscar",
+    "personLastName" : "Roa ",
+    "personAge" : 19,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "1048710096"
+  },
+  "vaccines" : [ {
+    "vaccineId" : 1,
+    "vaccineName" : "Rabia",
+    "lifeSpan" : 150
+  }, {
+    "vaccineId" : 5,
+    "vaccineName" : "Tos",
+    "lifeSpan" : 75
+  }, {
+    "vaccineId" : 7,
+    "vaccineName" : "Lyme",
+    "lifeSpan" : 125
+  } ],
+  "vaccineNames" : "Rabia, Tos, Lyme",
+  "earliestVaccineExpiryDate" : [ 2024, 8, 11 ]
+}, {
+  "appointmentId" : 6,
+  "appointmentDate" : [ 2024, 5, 28 ],
+  "pet" : {
+    "petId" : 4,
+    "petName" : "Diomedito",
+    "specie" : "Perro",
+    "breed" : "Pug",
+    "petAge" : 7,
+    "owner" : {
+      "personId" : 6,
+      "personName" : "Diomedes",
+      "personLastName" : "Diaz",
+      "personAge" : 57,
+      "documentType" : "Cedula de ciudadania",
+      "documentNumber" : "9848391"
+    },
+    "keepers" : null
+  },
+  "responsible" : {
+    "personId" : 6,
+    "personName" : "Diomedes",
+    "personLastName" : "Diaz",
+    "personAge" : 57,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "9848391"
+  },
+  "vaccines" : [ {
+    "vaccineId" : 3,
+    "vaccineName" : "Pentavalente",
+    "lifeSpan" : 100
+  } ],
+  "vaccineNames" : "Pentavalente",
+  "earliestVaccineExpiryDate" : [ 2024, 9, 5 ]
+}, {
+  "appointmentId" : 7,
+  "appointmentDate" : [ 2024, 5, 28 ],
+  "pet" : {
+    "petId" : 5,
+    "petName" : "Tom",
+    "specie" : "Gato",
+    "breed" : "Siames",
+    "petAge" : 5,
+    "owner" : {
+      "personId" : 2,
+      "personName" : "Sara",
+      "personLastName" : "Roa",
+      "personAge" : 11,
+      "documentType" : "Tarjeta de identidad",
+      "documentNumber" : "1150438008"
+    },
+    "keepers" : null
+  },
+  "responsible" : {
+    "personId" : 7,
+    "personName" : "Zuly",
+    "personLastName" : "Triana",
+    "personAge" : 44,
+    "documentType" : "Cedula Extranjera",
+    "documentNumber" : "172737127"
+  },
+  "vaccines" : [ {
+    "vaccineId" : 1,
+    "vaccineName" : "Rabia",
+    "lifeSpan" : 150
+  } ],
+  "vaccineNames" : "Rabia",
+  "earliestVaccineExpiryDate" : [ 2024, 10, 25 ]
+} ]

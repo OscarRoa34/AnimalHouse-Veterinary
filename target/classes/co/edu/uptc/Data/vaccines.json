@@ -1,1 +1,29 @@
-[]
+[ {
+  "vaccineId" : 1,
+  "vaccineName" : "Rabia",
+  "lifeSpan" : 150
+}, {
+  "vaccineId" : 2,
+  "vaccineName" : "Moquillo",
+  "lifeSpan" : 7
+}, {
+  "vaccineId" : 3,
+  "vaccineName" : "Pentavalente",
+  "lifeSpan" : 100
+}, {
+  "vaccineId" : 4,
+  "vaccineName" : "Leptopiro",
+  "lifeSpan" : 5
+}, {
+  "vaccineId" : 5,
+  "vaccineName" : "Tos",
+  "lifeSpan" : 75
+}, {
+  "vaccineId" : 6,
+  "vaccineName" : "Panleuco",
+  "lifeSpan" : 365
+}, {
+  "vaccineId" : 7,
+  "vaccineName" : "Lyme",
+  "lifeSpan" : 125
+} ]
