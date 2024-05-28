@@ -218,7 +218,7 @@ public class PetPanel extends JPanel {
                     pet.getSpecie(),
                     pet.getBreed(),
                     pet.getPetAge(),
-                    pet.getOwner().getPersonId()
+                    pet.getOwner().getPersonName() + " " + pet.getOwner().getPersonLastName()
             });
         }
     }

@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -150,9 +152,13 @@ public class AppointmentHistoryPanel extends JPanel {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Calendar selectedCalendar = calendar.getCalendar();
-                Date selectedDate = selectedCalendar.getTime();
-                JOptionPane.showMessageDialog(null, "Fecha seleccionada: " + selectedDate);
+                Calendar selectedCalendar = calendar.getCalendar(); // Obtenemos el Calendar del JCalendar
+                Date selectedDate = selectedCalendar.getTime(); // Obtenemos la fecha seleccionada
+                LocalDate localDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertimos
+                                                                                                             // la fecha
+                                                                                                             // a
+                                                                                                             // LocalDate
+                filterAppointmentsByDate(localDate); // Filtramos las citas por la fecha seleccionada
                 dialog.dispose();
             }
         });
@@ -168,6 +174,25 @@ public class AppointmentHistoryPanel extends JPanel {
             }
         });
         return cancelButton;
+    }
+
+    public void filterAppointmentsByDate(LocalDate selectedDate) {
+        List<Appointment> appointments = mainView.getPresenter().getAppointments();
+
+        model.setRowCount(0);
+        for (Appointment appointment : appointments) {
+            LocalDate appointmentDate = appointment.getAppointmentDate();
+            if (appointmentDate.equals(selectedDate)) {
+                model.addRow(new Object[] {
+                        appointment.getAppointmentId(),
+                        appointment.getAppointmentDate(),
+                        appointment.getPet().getPetName(),
+                        appointment.getVaccineNames(),
+                        appointment.getResponsible().getPersonName() + " "
+                                + appointment.getResponsible().getPersonLastName()
+                });
+            }
+        }
     }
 
     public void loadAppointmentsData() {
