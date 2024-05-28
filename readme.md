@@ -19,7 +19,7 @@ Código: 202311225
 
 ## Flujo de uso del programa:
 
-- Registrar una mascota, registrar vacunas y registrar un usuario, luego asi se podra registrar una cita seleccionando la mascota, el usuario y la o las vacunas.
+- Registrar una persona, registrar una mascota con dicho usuario, registrar vacunas, luego asi se podra registrar una cita seleccionando la mascota, el usuario y la o las vacunas.
 
 ## Persistencia:
 
