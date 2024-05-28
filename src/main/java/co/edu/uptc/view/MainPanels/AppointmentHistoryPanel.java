@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import com.toedter.calendar.JCalendar;
 
 import co.edu.uptc.view.GlobalView;
@@ -42,6 +41,7 @@ public class AppointmentHistoryPanel extends JPanel {
         createSearchBar();
         createAppointmentHistoryTable();
         addCalendarButton();
+        createVaccineFilterButton();
     }
 
     private void createTitle() {
@@ -62,7 +62,7 @@ public class AppointmentHistoryPanel extends JPanel {
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 30));
         searchBarPanel.add(searchField);
-        new TextPrompt("Buscar cita por nombre del dueño o responsable", searchField);
+        new TextPrompt("Buscar cita por nombre del dueño", searchField);
         searchField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -74,7 +74,8 @@ public class AppointmentHistoryPanel extends JPanel {
     }
 
     private void createAppointmentHistoryTable() {
-        String[] columnNames = { "ID", "Fecha de la cita", "Mascota", "Vacunas", "Dueño" };
+        String[] columnNames = { "ID", "Fecha de la cita", "Mascota", "Vacunas", "Dueño",
+                "Fecha de expiración de vacuna" };
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -82,7 +83,6 @@ public class AppointmentHistoryPanel extends JPanel {
             }
         };
         appointmentHistoryTable = new JTable(model);
-        appointmentHistoryTable.getColumnModel().getColumn(3).setCellRenderer(new VaccinesCellRenderer());
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -108,12 +108,12 @@ public class AppointmentHistoryPanel extends JPanel {
     }
 
     private JButton createCalendarButton() {
-        JButton calendarButton = new JButton("Calendario");
+        JButton calendarButton = new JButton("Consultar Cita Por Fecha");
         calendarButton.setBackground(GlobalView.BUTTONS_EDIT_BACKGROUND);
         calendarButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
         calendarButton.setFocusPainted(false);
         calendarButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_EDIT_COLOR, 2));
-        calendarButton.setBounds(350, 550, 150, 30);
+        calendarButton.setBounds(240, 550, 200, 30);
         return calendarButton;
     }
 
@@ -180,6 +180,22 @@ public class AppointmentHistoryPanel extends JPanel {
         return cancelButton;
     }
 
+    private void createVaccineFilterButton() {
+        JButton vaccineFilterButton = new JButton("Filtrar por vacunas próximas a vencer (1 Semana)");
+        vaccineFilterButton.setBackground(GlobalView.BUTTONS_ADD_BACKGROUND);
+        vaccineFilterButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
+        vaccineFilterButton.setFocusPainted(false);
+        vaccineFilterButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_ADD_COLOR, 2));
+        vaccineFilterButton.setBounds(450, 550, 300, 30);
+        vaccineFilterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterAppointmentsByVaccineExpiry();
+            }
+        });
+        this.add(vaccineFilterButton);
+    }
+
     public void filterAppointmentsByDate(LocalDate selectedDate) {
         List<Appointment> appointments = mainView.getPresenter().getAppointments();
         model.setRowCount(0);
@@ -192,7 +208,8 @@ public class AppointmentHistoryPanel extends JPanel {
                         appointment.getPet().getPetName(),
                         appointment.getVaccineNames(),
                         appointment.getResponsible().getPersonName() + " "
-                                + appointment.getResponsible().getPersonLastName()
+                                + appointment.getResponsible().getPersonLastName(),
+                        appointment.getEarliestVaccineExpiryDate()
                 });
             }
         }
@@ -210,7 +227,32 @@ public class AppointmentHistoryPanel extends JPanel {
                         appointment.getAppointmentDate(),
                         appointment.getPet().getPetName(),
                         appointment.getVaccineNames(),
-                        fullName
+                        fullName,
+                        appointment.getEarliestVaccineExpiryDate()
+                });
+            }
+        }
+    }
+
+    // Profe, Honestamente este metodo de filtrado fue hecho con chatGpt
+    public void filterAppointmentsByVaccineExpiry() {
+        List<Appointment> appointments = mainView.getPresenter().getAppointments();
+        model.setRowCount(0);
+        LocalDate today = LocalDate.now();
+        LocalDate oneWeekFromNow = today.plusWeeks(1);
+
+        for (Appointment appointment : appointments) {
+            List<LocalDate> expireDates = appointment.calculateVaccineExpireDates();
+            boolean vaccineExpiringSoon = expireDates.stream().anyMatch(date -> !date.isAfter(oneWeekFromNow));
+            if (vaccineExpiringSoon) {
+                model.addRow(new Object[] {
+                        appointment.getAppointmentId(),
+                        appointment.getAppointmentDate(),
+                        appointment.getPet().getPetName(),
+                        appointment.getVaccineNames(),
+                        appointment.getResponsible().getPersonName() + " "
+                                + appointment.getResponsible().getPersonLastName(),
+                        appointment.getEarliestVaccineExpiryDate()
                 });
             }
         }
@@ -226,26 +268,8 @@ public class AppointmentHistoryPanel extends JPanel {
                     appointment.getPet().getPetName(),
                     appointment.getVaccineNames(),
                     appointment.getResponsible().getPersonName() + " "
-                            + appointment.getResponsible().getPersonLastName()
-            });
-        }
-    }
-
-    class VaccinesCellRenderer extends JTextArea implements TableCellRenderer {
-        public VaccinesCellRenderer() {
-            setLineWrap(true);
-            setWrapStyleWord(true);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-                int row, int column) {
-            setText(value != null ? value.toString() : "");
-            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
-            if (table.getRowHeight(row) != getPreferredSize().height) {
-                table.setRowHeight(row, getPreferredSize().height);
-            }
-            return this;
+                            + appointment.getResponsible().getPersonLastName(),
+                    appointment.getEarliestVaccineExpiryDate() });
         }
     }
 }

@@ -58,4 +58,19 @@
     "documentNumber" : "1048710096"
   },
   "keepers" : null
+}, {
+  "petId" : 5,
+  "petName" : "Polaina",
+  "specie" : "Gato",
+  "breed" : "Siames",
+  "petAge" : 18,
+  "owner" : {
+    "personId" : 1,
+    "personName" : "Oscar",
+    "personLastName" : "Roa",
+    "personAge" : 19,
+    "documentType" : "Cedula de ciudadania",
+    "documentNumber" : "1048710096"
+  },
+  "keepers" : null
 } ]

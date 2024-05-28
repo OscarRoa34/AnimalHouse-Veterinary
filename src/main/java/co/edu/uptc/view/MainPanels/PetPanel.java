@@ -79,7 +79,7 @@ public class PetPanel extends JPanel {
     }
 
     private void createPetsTable() {
-        String[] columnNames = { "ID", "Nombre", "Especie", "Raza", "Edad", "Dueño", "Responsable" };
+        String[] columnNames = { "ID", "Nombre", "Especie", "Raza", "Edad", "Dueño" };
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {

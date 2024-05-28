@@ -40,4 +40,9 @@ public class Appointment {
         return vaccineNames.toString();
     }
 
+    public LocalDate getEarliestVaccineExpiryDate() {
+        return calculateVaccineExpireDates().stream()
+                .min(LocalDate::compareTo)
+                .orElse(null);
+    }
 }

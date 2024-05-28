@@ -91,10 +91,16 @@ public class MainView extends JFrame implements ActionListener, VetInterface.Vie
 
             @Override
             public void windowClosing(WindowEvent e) {
-                presenter.saveAppointmentsToJson(p.getProperties("appointmentsJson"));
-                presenter.saveVaccinesToJson(p.getProperties("vaccinesJson"));
-                presenter.savePersonsToJson(p.getProperties("personsJson"));
-                presenter.savePetsToJson(p.getProperties("petsJson"));
+                int response = JOptionPane.showConfirmDialog(null, "¿Realmente quieres salir del programa?",
+                        "Confirmar salida", JOptionPane.YES_NO_OPTION);
+
+                if (response == JOptionPane.YES_OPTION) {
+                    presenter.saveAppointmentsToJson(p.getProperties("appointmentsJson"));
+                    presenter.saveVaccinesToJson(p.getProperties("vaccinesJson"));
+                    presenter.savePersonsToJson(p.getProperties("personsJson"));
+                    presenter.savePetsToJson(p.getProperties("petsJson"));
+                    System.exit(0);
+                }
             }
         });
     }

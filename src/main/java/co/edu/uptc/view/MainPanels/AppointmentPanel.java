@@ -20,6 +20,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -103,6 +105,12 @@ public class AppointmentPanel extends JPanel {
         petTable = new JTable(modelPets);
         petTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < petTable.getColumnCount(); i++) {
+            petTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         JScrollPane scrollPane = new JScrollPane(petTable);
         scrollPane.setBounds(20, 120, 850, 100);
         this.add(scrollPane);
@@ -151,6 +159,11 @@ public class AppointmentPanel extends JPanel {
             }
         };
         vaccinesTable = new JTable(modelVaccines);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < vaccinesTable.getColumnCount(); i++) {
+            vaccinesTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         JScrollPane scrollPane = new JScrollPane(vaccinesTable);
         scrollPane.setBounds(20, 290, 850, 100);
@@ -213,6 +226,12 @@ public class AppointmentPanel extends JPanel {
         };
         usersTable = new JTable(modelUsers);
         usersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < usersTable.getColumnCount(); i++) {
+            usersTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         JScrollPane scrollPane = new JScrollPane(usersTable);
         scrollPane.setBounds(20, 460, 850, 100);
