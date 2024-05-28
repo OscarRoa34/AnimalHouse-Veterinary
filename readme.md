@@ -38,6 +38,7 @@ Código: 202311225
 - **Registro de Mascotas:** Añade y gestiona las mascotas bajo cuidado.
 - **Vacunas:** Registra y maneja las vacunas disponibles.
 - **Citas:** Programa y organiza citas entre usuarios, mascotas, y vacunas.
+- **Consultas:** Accede a toda la información que sea necesaria, con una interfaz amigable para el usuario
 
 ---
 
