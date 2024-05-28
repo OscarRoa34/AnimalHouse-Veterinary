@@ -80,7 +80,7 @@ public class AppointmentPanel extends JPanel {
 
         petSearchField = new JTextField();
         petSearchField.setPreferredSize(new Dimension(200, 30));
-        new TextPrompt("Nombre de la mascota", petSearchField);
+        new TextPrompt("Buscar La Mascota Por El Nombre", petSearchField);
         searchBarPanel.add(petSearchField, BorderLayout.CENTER);
         petSearchField.addKeyListener(new KeyAdapter() {
             @Override
@@ -130,7 +130,7 @@ public class AppointmentPanel extends JPanel {
 
         vaccineSearchField = new JTextField();
         vaccineSearchField.setPreferredSize(new Dimension(200, 30));
-        new TextPrompt("Nombre de la vacuna", vaccineSearchField);
+        new TextPrompt("Buscar Vacuna Por El Nombre", vaccineSearchField);
         searchBarPanel.add(vaccineSearchField, BorderLayout.CENTER);
         vaccineSearchField.addKeyListener(new KeyAdapter() {
             @Override
@@ -178,7 +178,7 @@ public class AppointmentPanel extends JPanel {
 
         userSearchField = new JTextField();
         userSearchField.setPreferredSize(new Dimension(200, 30));
-        new TextPrompt("Documento del usuario", userSearchField);
+        new TextPrompt("Buscar el Usuario Por el Numero De Documento", userSearchField);
         searchBarPanel.add(userSearchField, BorderLayout.CENTER);
         userSearchField.addKeyListener(new KeyAdapter() {
             @Override

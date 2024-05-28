@@ -17,9 +17,20 @@ Código: 202311225
 
 ---
 
-## Flujo de uso:
+## Flujo de uso del programa:
 
-- Registrar una mascota, registrar vacunas y registrar un usuario, luego asi se podra registrar una cita.
+- Registrar una mascota, registrar vacunas y registrar un usuario, luego asi se podra registrar una cita seleccionando la mascota, el usuario y la o las vacunas.
+
+## Persistencia:
+
+- Para este proyecto se usaron archivos tipo Json, 4 para ser exactos:
+
+  - Appointments.json
+  - Pets.json
+  - Vaccines.json
+  - Persons.json
+
+  Los archivos se cargan al iniciar el programa, luego del uso del programa se guardan al cerrar la ventana.
 
 ## Funcionalidades:
 
@@ -33,10 +44,6 @@ Código: 202311225
 ## Patron de diseño:
 
     -Modelo|Presentador|Vista
-
----
-
-## AnimalHouse: Simplificando la gestión veterinaria.
 
 ---
 

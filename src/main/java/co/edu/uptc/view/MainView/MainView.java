@@ -19,8 +19,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
-//TODO Barras de busqueda, arreglar tabla dueño mascota, agregar consultas porfin
-
+//TODO arreglar tabla dueño mascota
 public class MainView extends JFrame implements ActionListener, VetInterface.View {
 
     private JPanel asidePanel;

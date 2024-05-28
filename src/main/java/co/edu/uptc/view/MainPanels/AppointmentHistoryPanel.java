@@ -2,7 +2,9 @@ package co.edu.uptc.view.MainPanels;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import com.toedter.calendar.JCalendar;
 
 import co.edu.uptc.view.GlobalView;
@@ -76,10 +78,17 @@ public class AppointmentHistoryPanel extends JPanel {
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 3;
+                return false;
             }
         };
         appointmentHistoryTable = new JTable(model);
+        appointmentHistoryTable.getColumnModel().getColumn(3).setCellRenderer(new VaccinesCellRenderer());
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < appointmentHistoryTable.getColumnCount(); i++) {
+            appointmentHistoryTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         JScrollPane scrollPane = new JScrollPane(appointmentHistoryTable);
         scrollPane.setBounds(20, 130, 850, 400);
@@ -219,6 +228,24 @@ public class AppointmentHistoryPanel extends JPanel {
                     appointment.getResponsible().getPersonName() + " "
                             + appointment.getResponsible().getPersonLastName()
             });
+        }
+    }
+
+    class VaccinesCellRenderer extends JTextArea implements TableCellRenderer {
+        public VaccinesCellRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                int row, int column) {
+            setText(value != null ? value.toString() : "");
+            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
+            if (table.getRowHeight(row) != getPreferredSize().height) {
+                table.setRowHeight(row, getPreferredSize().height);
+            }
+            return this;
         }
     }
 }

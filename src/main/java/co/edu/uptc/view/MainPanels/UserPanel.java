@@ -55,6 +55,14 @@ public class UserPanel extends JPanel {
         searchBarPanel.add(searchField);
         new TextPrompt("Documento del usuario", searchField);
         searchField.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (!Character.isDigit(e.getKeyChar())) {
+                    e.consume();
+                }
+            }
+
             @Override
             public void keyReleased(KeyEvent e) {
                 String searchText = searchField.getText().trim();
