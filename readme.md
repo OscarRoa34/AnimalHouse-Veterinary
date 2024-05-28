@@ -17,6 +17,10 @@ Código: 202311225
 
 ---
 
+## Flujo de uso:
+
+- Registrar una mascota, registrar vacunas y registrar un usuario, luego asi se podra registrar una cita.
+
 ## Funcionalidades:
 
 - **Registro de Usuarios:** Administra la información de los clientes de la clínica.
