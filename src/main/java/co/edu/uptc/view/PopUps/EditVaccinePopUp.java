@@ -12,9 +12,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import co.edu.uptc.Pojos.Vaccine;
 import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.Utils.TextPrompt;
-import co.edu.uptc.models.Vaccine;
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainPanels.VaccinesPanel;
 

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,9 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
+import co.edu.uptc.Pojos.Vaccine;
 import co.edu.uptc.Utils.TextPrompt;
-import co.edu.uptc.models.Vaccine;
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainView.MainView;
 import co.edu.uptc.view.PopUps.CreateVaccinePopUp;
@@ -58,20 +62,15 @@ public class VaccinesPanel extends JPanel {
         JPanel searchBarPanel = new JPanel();
         searchBarPanel.setBackground(GlobalView.SEARCHBAR_BACKGROUND);
         searchBarPanel.setLayout(new BorderLayout());
-        searchBarPanel.setBounds(300, 80, 300, 30);
+        searchBarPanel.setBounds(340, 80, 200, 30);
 
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 30));
-        new TextPrompt("Nombre de la vacuna", searchField);
+        new TextPrompt("Buscar Vacuna por el nombre", searchField);
         searchBarPanel.add(searchField, BorderLayout.CENTER);
-
-        JButton searchButton = new JButton("Buscar");
-        searchButton.setFocusPainted(false);
-        searchButton.setBackground(GlobalView.ASIDE_BORDERCOLOR);
-        searchButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
-        searchBarPanel.add(searchButton, BorderLayout.EAST);
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        searchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
                 String searchText = searchField.getText().trim();
                 filterVaccinesTable(searchText);
             }
@@ -80,7 +79,7 @@ public class VaccinesPanel extends JPanel {
     }
 
     private void createVaccinesTable() {
-        String[] columnNames = { "ID", "Nombre", "Vida Util" };
+        String[] columnNames = { "ID", "Nombre", "Vida Util (Días)" };
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -88,6 +87,10 @@ public class VaccinesPanel extends JPanel {
             }
         };
         vaccinesTable = new JTable(model);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        vaccinesTable.setDefaultRenderer(Object.class, centerRenderer);
 
         JScrollPane scrollPane = new JScrollPane(vaccinesTable);
         scrollPane.setBounds(20, 130, 850, 400);

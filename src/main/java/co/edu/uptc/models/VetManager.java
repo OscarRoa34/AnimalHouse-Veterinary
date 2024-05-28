@@ -11,6 +11,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import co.edu.uptc.Interfaces.VetInterface;
+import co.edu.uptc.Pojos.Appointment;
+import co.edu.uptc.Pojos.Person;
+import co.edu.uptc.Pojos.Pet;
+import co.edu.uptc.Pojos.Vaccine;
 
 public class VetManager implements VetInterface.Model {
     private List<Pet> pets;

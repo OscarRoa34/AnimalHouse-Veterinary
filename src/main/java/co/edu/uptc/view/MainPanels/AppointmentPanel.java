@@ -6,7 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +23,10 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import co.edu.uptc.Pojos.Person;
+import co.edu.uptc.Pojos.Pet;
+import co.edu.uptc.Pojos.Vaccine;
 import co.edu.uptc.Utils.TextPrompt;
-import co.edu.uptc.models.Person;
-import co.edu.uptc.models.Pet;
-import co.edu.uptc.models.Vaccine;
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainView.MainView;
 
@@ -82,14 +82,9 @@ public class AppointmentPanel extends JPanel {
         petSearchField.setPreferredSize(new Dimension(200, 30));
         new TextPrompt("Nombre de la mascota", petSearchField);
         searchBarPanel.add(petSearchField, BorderLayout.CENTER);
-
-        JButton searchButton = new JButton("Buscar");
-        searchButton.setFocusPainted(false);
-        searchButton.setBackground(GlobalView.ASIDE_BORDERCOLOR);
-        searchButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
-        searchBarPanel.add(searchButton, BorderLayout.EAST);
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        petSearchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
                 String searchText = petSearchField.getText().trim();
                 filterPetsTable(searchText);
             }
@@ -137,14 +132,9 @@ public class AppointmentPanel extends JPanel {
         vaccineSearchField.setPreferredSize(new Dimension(200, 30));
         new TextPrompt("Nombre de la vacuna", vaccineSearchField);
         searchBarPanel.add(vaccineSearchField, BorderLayout.CENTER);
-
-        JButton searchButton = new JButton("Buscar");
-        searchButton.setFocusPainted(false);
-        searchButton.setBackground(GlobalView.ASIDE_BORDERCOLOR);
-        searchButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
-        searchBarPanel.add(searchButton, BorderLayout.EAST);
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        vaccineSearchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
                 String searchText = vaccineSearchField.getText().trim();
                 filterVaccinesTable(searchText);
             }
@@ -190,7 +180,13 @@ public class AppointmentPanel extends JPanel {
         userSearchField.setPreferredSize(new Dimension(200, 30));
         new TextPrompt("Documento del usuario", userSearchField);
         searchBarPanel.add(userSearchField, BorderLayout.CENTER);
-        userSearchField.addKeyListener(new KeyListener() {
+        userSearchField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String searchText = userSearchField.getText().trim();
+                filterUsersTable(searchText);
+            }
+
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
@@ -203,21 +199,6 @@ public class AppointmentPanel extends JPanel {
             public void keyPressed(KeyEvent e) {
             }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-
-        JButton searchButton = new JButton("Buscar");
-        searchButton.setFocusPainted(false);
-        searchButton.setBackground(GlobalView.ASIDE_BORDERCOLOR);
-        searchButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
-        searchBarPanel.add(searchButton, BorderLayout.EAST);
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String searchText = userSearchField.getText().trim();
-                filterUsersTable(searchText);
-            }
         });
         this.add(searchBarPanel);
     }
@@ -317,7 +298,7 @@ public class AppointmentPanel extends JPanel {
     }
 
     private void filterVaccinesTable(String searchText) {
-        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(modelUsers);
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(modelVaccines);
         vaccinesTable.setRowSorter(tableRowSorter);
 
         if (searchText.length() == 0) {

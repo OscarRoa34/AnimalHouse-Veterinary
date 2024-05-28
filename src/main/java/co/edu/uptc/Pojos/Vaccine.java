@@ -1,4 +1,4 @@
-package co.edu.uptc.models;
+package co.edu.uptc.Pojos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

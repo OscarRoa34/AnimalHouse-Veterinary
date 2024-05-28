@@ -7,13 +7,15 @@ import com.toedter.calendar.JCalendar;
 
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainView.MainView;
+import co.edu.uptc.Pojos.Appointment;
 import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.Utils.TextPrompt;
-import co.edu.uptc.models.Appointment;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -53,24 +55,19 @@ public class AppointmentHistoryPanel extends JPanel {
         JPanel searchBarPanel = new JPanel();
         searchBarPanel.setBackground(GlobalView.SEARCHBAR_BACKGROUND);
         searchBarPanel.setLayout(new BorderLayout());
-        searchBarPanel.setBounds(300, 80, 300, 30);
+        searchBarPanel.setBounds(340, 80, 200, 30);
 
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 30));
-        new TextPrompt("Nombre del dueño o responsable", searchField);
-        searchBarPanel.add(searchField, BorderLayout.CENTER);
-
-        JButton searchButton = new JButton("Buscar");
-        searchButton.setFocusPainted(false);
-        searchButton.setBackground(GlobalView.ASIDE_BORDERCOLOR);
-        searchButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
-        searchButton.addActionListener(new ActionListener() {
+        searchBarPanel.add(searchField);
+        new TextPrompt("Buscar cita por nombre del dueño o responsable", searchField);
+        searchField.addKeyListener(new KeyAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                filterAppointmentsByOwner(searchField.getText());
+            public void keyReleased(KeyEvent e) {
+                String searchText = searchField.getText().trim();
+                filterAppointmentsByOwner(searchText);
             }
         });
-        searchBarPanel.add(searchButton, BorderLayout.EAST);
         this.add(searchBarPanel);
     }
 

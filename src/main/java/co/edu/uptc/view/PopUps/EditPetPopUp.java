@@ -22,9 +22,9 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import co.edu.uptc.Pojos.Person;
 import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.Utils.TextPrompt;
-import co.edu.uptc.models.Person;
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainPanels.PetPanel;
 
@@ -36,18 +36,15 @@ public class EditPetPopUp extends JDialog {
     private JTextField ageField;
     private JTable ownerTable;
     private JTextField searchOwnerField;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
     private PropertiesService p = new PropertiesService();
     private PetPanel petPanel;
     private int id;
     private int ownerId;
 
-    public EditPetPopUp(int id, String name, String specie, String breed, int age, int ownerId, PetPanel petPanel)
+    public EditPetPopUp(int id, String name, String specie, String breed, int age, String ownerName, PetPanel petPanel)
             throws IOException {
         this.id = id;
         this.petPanel = petPanel;
-        this.ownerId = ownerId;
         this.setTitle("Editar Mascota");
         this.setSize(450, 550);
         this.setResizable(false);
@@ -60,7 +57,7 @@ public class EditPetPopUp extends JDialog {
         createSpecieField(specie);
         createBreedField(breed);
         createAgeField(age);
-        createOwnerTable();
+        createOwnerTable(ownerName);
         createEditButton();
         createCancelButton();
     }
@@ -75,28 +72,28 @@ public class EditPetPopUp extends JDialog {
 
         nameField = new JTextField();
         nameField.setBounds(150, 60, 150, 30);
-        txtPrompt = new TextPrompt(name, nameField);
+        new TextPrompt(name, nameField);
         this.add(nameField);
     }
 
     private void createSpecieField(String specie) {
         specieField = new JTextField();
         specieField.setBounds(150, 105, 150, 30);
-        txtPrompt = new TextPrompt(specie, specieField);
+        new TextPrompt(specie, specieField);
         this.add(specieField);
     }
 
     private void createBreedField(String breed) {
         breedField = new JTextField();
         breedField.setBounds(150, 150, 150, 30);
-        txtPrompt = new TextPrompt(breed, breedField);
+        new TextPrompt(breed, breedField);
         this.add(breedField);
     }
 
     private void createAgeField(int age) {
         ageField = new JTextField();
         ageField.setBounds(150, 195, 150, 30);
-        txtPrompt = new TextPrompt(String.valueOf(age), ageField);
+        new TextPrompt(String.valueOf(age), ageField);
         ageField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
@@ -108,7 +105,7 @@ public class EditPetPopUp extends JDialog {
         this.add(ageField);
     }
 
-    private void createOwnerTable() {
+    private void createOwnerTable(String ownerName) {
         String[] columnNames = { "ID", "Nombre", "Apellido" };
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -126,7 +123,7 @@ public class EditPetPopUp extends JDialog {
 
         searchOwnerField = new JTextField();
         searchOwnerField.setBounds(150, 250, 150, 30);
-        txtPrompt = new TextPrompt("Buscar Dueño", searchOwnerField);
+        new TextPrompt("Buscar Dueño", searchOwnerField);
         searchOwnerField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 String searchText = searchOwnerField.getText().trim();
@@ -134,6 +131,18 @@ public class EditPetPopUp extends JDialog {
             }
         });
         this.add(searchOwnerField);
+
+        selectCurrentOwner(ownerName, model);
+    }
+
+    private void selectCurrentOwner(String ownerName, DefaultTableModel model) {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String fullName = model.getValueAt(i, 1) + " " + model.getValueAt(i, 2);
+            if (fullName.equalsIgnoreCase(ownerName)) {
+                ownerTable.setRowSelectionInterval(i, i);
+                break;
+            }
+        }
     }
 
     private void filterOwnersTable(String searchText, DefaultTableModel model) {

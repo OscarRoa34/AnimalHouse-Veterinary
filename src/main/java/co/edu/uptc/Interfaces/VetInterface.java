@@ -3,10 +3,10 @@ package co.edu.uptc.Interfaces;
 import java.io.IOException;
 import java.util.List;
 
-import co.edu.uptc.models.Appointment;
-import co.edu.uptc.models.Person;
-import co.edu.uptc.models.Pet;
-import co.edu.uptc.models.Vaccine;
+import co.edu.uptc.Pojos.Appointment;
+import co.edu.uptc.Pojos.Person;
+import co.edu.uptc.Pojos.Pet;
+import co.edu.uptc.Pojos.Vaccine;
 
 public interface VetInterface {
 

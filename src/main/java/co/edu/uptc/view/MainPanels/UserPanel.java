@@ -6,11 +6,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,11 +19,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import co.edu.uptc.Pojos.Person;
 import co.edu.uptc.Utils.TextPrompt;
-import co.edu.uptc.models.Person;
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainView.MainView;
 import co.edu.uptc.view.PopUps.CreateUserPopUp;
@@ -36,6 +37,7 @@ public class UserPanel extends JPanel {
     private JTable usersTable;
     private DefaultTableModel model;
     private MainView mainView;
+    private TableRowSorter<DefaultTableModel> tableRowSorter;
 
     public UserPanel(MainView mainView) {
         this.mainView = mainView;
@@ -60,37 +62,15 @@ public class UserPanel extends JPanel {
         JPanel searchBarPanel = new JPanel();
         searchBarPanel.setBackground(GlobalView.SEARCHBAR_BACKGROUND);
         searchBarPanel.setLayout(new BorderLayout());
-        searchBarPanel.setBounds(300, 80, 300, 30);
+        searchBarPanel.setBounds(340, 80, 200, 30);
 
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 30));
+        searchBarPanel.add(searchField);
         new TextPrompt("Documento del usuario", searchField);
-        searchBarPanel.add(searchField, BorderLayout.CENTER);
-        searchField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c)) {
-                    e.consume();
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
+        searchField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-            }
-        });
-
-        JButton searchButton = new JButton("Buscar");
-        searchButton.setFocusPainted(false);
-        searchButton.setBackground(GlobalView.ASIDE_BORDERCOLOR);
-        searchButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
-        searchBarPanel.add(searchButton, BorderLayout.EAST);
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
                 String searchText = searchField.getText().trim();
                 filterUsersTable(searchText);
             }
@@ -108,6 +88,14 @@ public class UserPanel extends JPanel {
         };
         usersTable = new JTable(model);
         usersTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tableRowSorter = new TableRowSorter<>(model);
+        usersTable.setRowSorter(tableRowSorter);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < usersTable.getColumnCount(); i++) {
+            usersTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         JScrollPane scrollPane = new JScrollPane(usersTable);
         scrollPane.setBounds(20, 130, 850, 400);
@@ -233,19 +221,14 @@ public class UserPanel extends JPanel {
                     person.getDocumentType(),
                     person.getDocumentNumber()
             });
-
         }
     }
 
     private void filterUsersTable(String searchText) {
-        DefaultTableModel tableModel = (DefaultTableModel) usersTable.getModel();
-        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
-        usersTable.setRowSorter(tableRowSorter);
-
-        if (searchText.length() == 0) {
+        if (searchText.isEmpty()) {
             tableRowSorter.setRowFilter(null);
         } else {
-            tableRowSorter.setRowFilter(RowFilter.regexFilter("^" + searchText + "$"));
+            tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 5));
         }
     }
 

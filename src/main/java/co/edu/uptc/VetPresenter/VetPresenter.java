@@ -7,10 +7,10 @@ import java.util.List;
 
 import co.edu.uptc.Interfaces.VetInterface;
 import co.edu.uptc.Interfaces.VetInterface.*;
-import co.edu.uptc.models.Appointment;
-import co.edu.uptc.models.Person;
-import co.edu.uptc.models.Pet;
-import co.edu.uptc.models.Vaccine;
+import co.edu.uptc.Pojos.Appointment;
+import co.edu.uptc.Pojos.Person;
+import co.edu.uptc.Pojos.Pet;
+import co.edu.uptc.Pojos.Vaccine;
 
 public class VetPresenter implements VetInterface.Presenter {
     @SuppressWarnings("unused")

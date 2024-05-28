@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,11 +21,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import co.edu.uptc.Pojos.Pet;
 import co.edu.uptc.Utils.TextPrompt;
-import co.edu.uptc.models.Pet;
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainView.MainView;
 import co.edu.uptc.view.PopUps.CreatePetPopUp;
@@ -60,20 +64,13 @@ public class PetPanel extends JPanel {
         JPanel searchBarPanel = new JPanel();
         searchBarPanel.setBackground(GlobalView.SEARCHBAR_BACKGROUND);
         searchBarPanel.setLayout(new BorderLayout());
-        searchBarPanel.setBounds(300, 80, 300, 30);
-
+        searchBarPanel.setBounds(320, 80, 250, 30);
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 30));
-        txtPrompt = new TextPrompt("Nombre de la mascota", searchField);
+        txtPrompt = new TextPrompt("Buscar Mascota por el nombre", searchField);
         searchBarPanel.add(searchField, BorderLayout.CENTER);
-
-        JButton searchButton = new JButton("Buscar");
-        searchButton.setFocusPainted(false);
-        searchButton.setBackground(GlobalView.ASIDE_BORDERCOLOR);
-        searchButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
-        searchBarPanel.add(searchButton, BorderLayout.EAST);
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        searchField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
                 String searchText = searchField.getText().trim();
                 filterPetsTable(searchText);
             }
@@ -82,7 +79,7 @@ public class PetPanel extends JPanel {
     }
 
     private void createPetsTable() {
-        String[] columnNames = { "ID", "Nombre", "Especie", "Raza", "Edad", "Dueño" };
+        String[] columnNames = { "ID", "Nombre", "Especie", "Raza", "Edad", "Dueño", "Responsable" };
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -90,6 +87,13 @@ public class PetPanel extends JPanel {
             }
         };
         petsTable = new JTable(model);
+
+        // Centrar contenido de las celdas
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        for (int i = 0; i < petsTable.getColumnCount(); i++) {
+            petsTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         JScrollPane scrollPane = new JScrollPane(petsTable);
         scrollPane.setBounds(20, 130, 850, 400);
@@ -162,10 +166,9 @@ public class PetPanel extends JPanel {
                     String specie = (String) petsTable.getModel().getValueAt(selectedRow, 2);
                     String breed = (String) petsTable.getModel().getValueAt(selectedRow, 3);
                     int age = Integer.parseInt(String.valueOf(petsTable.getModel().getValueAt(selectedRow, 4)));
-                    int ownerId = Integer.parseInt(String.valueOf(petsTable.getModel().getValueAt(selectedRow, 5)));
-
+                    String owner = (String) petsTable.getModel().getValueAt(selectedRow, 5);
                     try {
-                        EditPetPopUp editPetWindow = new EditPetPopUp(id, name, specie, breed, age, ownerId,
+                        EditPetPopUp editPetWindow = new EditPetPopUp(id, name, specie, breed, age, owner,
                                 getInstance());
                         editPetWindow.setVisible(true);
                     } catch (IOException e1) {
@@ -218,8 +221,7 @@ public class PetPanel extends JPanel {
                     pet.getSpecie(),
                     pet.getBreed(),
                     pet.getPetAge(),
-                    pet.getOwner().getPersonName() + " " + pet.getOwner().getPersonLastName()
-            });
+                    pet.getOwner().getPersonName() + " " + pet.getOwner().getPersonLastName() });
         }
     }
 

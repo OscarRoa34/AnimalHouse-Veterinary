@@ -19,11 +19,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
+import co.edu.uptc.Pojos.Person;
 import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.Utils.TextPrompt;
-import co.edu.uptc.models.Person;
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainPanels.PetPanel;
 
@@ -33,14 +35,11 @@ public class CreatePetPopUp extends JDialog {
     private JComboBox<String> animalDropdown;
     private JTextField breedField;
     private JTextField ageField;
-    private JComboBox<String> ownerDropdown;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
+    private JTable ownerTable;
     private PetPanel petPanel;
     private static int ID_COUNTER;
     private PropertiesService p = new PropertiesService();
-    private JTable personTable;
-    private DefaultTableModel tableModel;
+    private JTextField searchOwnerField;
 
     public CreatePetPopUp(PetPanel petPanel) throws IOException {
         this.petPanel = petPanel;
@@ -56,8 +55,7 @@ public class CreatePetPopUp extends JDialog {
         createAnimalDropdown();
         createBreedField();
         createAgeField();
-        createOwnerDropdown();
-        createPersonTable();
+        createOwnerTable(null);
         createAddButton();
         createCancelButton();
         setContadorId();
@@ -77,7 +75,7 @@ public class CreatePetPopUp extends JDialog {
 
         nameField = new JTextField();
         nameField.setBounds(100, 70, 200, 30);
-        txtPrompt = new TextPrompt("Nombre de la mascota", nameField);
+        new TextPrompt("Nombre de la mascota", nameField);
         this.add(nameField);
     }
 
@@ -93,14 +91,14 @@ public class CreatePetPopUp extends JDialog {
     private void createBreedField() {
         breedField = new JTextField();
         breedField.setBounds(100, 170, 200, 30);
-        txtPrompt = new TextPrompt("Raza", breedField);
+        new TextPrompt("Raza", breedField);
         this.add(breedField);
     }
 
     private void createAgeField() {
         ageField = new JTextField();
         ageField.setBounds(100, 220, 200, 30);
-        txtPrompt = new TextPrompt("Edad de la mascota", ageField);
+        new TextPrompt("Edad de la mascota", ageField);
         ageField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -112,25 +110,65 @@ public class CreatePetPopUp extends JDialog {
         this.add(ageField);
     }
 
-    private void createOwnerDropdown() {
-        String[] options = { "Dueño", "Responsable" };
-        ownerDropdown = new JComboBox<>(options);
-        ownerDropdown.setBackground(GlobalView.SEARCHBAR_BACKGROUND);
-        ownerDropdown.setForeground(GlobalView.SEARCHBAR_FOREGROUND);
-        ownerDropdown.setBounds(100, 270, 200, 30);
-        this.add(ownerDropdown);
+    private void createOwnerTable(String ownerName) {
+        String[] columnNames = { "ID", "Nombre", "Apellido", "Documento" };
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        ownerTable = new JTable(model);
+
+        JScrollPane scrollPane = new JScrollPane(ownerTable);
+        scrollPane.setBounds(20, 320, 350, 150);
+        this.add(scrollPane);
+
+        loadOwnersData();
+
+        searchOwnerField = new JTextField();
+        searchOwnerField.setBounds(100, 270, 200, 30);
+        new TextPrompt("Buscar Dueño por nombre", searchOwnerField);
+        searchOwnerField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                String searchText = searchOwnerField.getText().trim();
+                filterOwnersTable(searchText, model);
+            }
+        });
+        this.add(searchOwnerField);
+
+        selectCurrentOwner(ownerName, model);
     }
 
-    private void createPersonTable() {
-        String[] columnNames = { "ID", "Nombre", "Apellido", "N° de documento" };
-        tableModel = new DefaultTableModel(null, columnNames);
-        personTable = new JTable(tableModel);
-        personTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    private void selectCurrentOwner(String ownerName, DefaultTableModel model) {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String fullName = model.getValueAt(i, 1) + " " + model.getValueAt(i, 2);
+            if (fullName.equalsIgnoreCase(ownerName)) {
+                ownerTable.setRowSelectionInterval(i, i);
+                break;
+            }
+        }
+    }
 
-        JScrollPane scrollPane = new JScrollPane(personTable);
-        scrollPane.setBounds(50, 320, 300, 150);
-        loadPersonsData();
-        this.add(scrollPane);
+    private void filterOwnersTable(String searchText, DefaultTableModel model) {
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(model);
+        ownerTable.setRowSorter(tableRowSorter);
+
+        if (searchText.length() == 0) {
+            tableRowSorter.setRowFilter(null);
+        } else {
+            tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1, 2));
+        }
+    }
+
+    private void loadOwnersData() {
+        List<Person> owners = petPanel.getMainView().getPresenter().getPersons();
+        DefaultTableModel model = (DefaultTableModel) ownerTable.getModel();
+        model.setRowCount(0);
+        for (Person owner : owners) {
+            model.addRow(new Object[] { owner.getPersonId(), owner.getPersonName(), owner.getPersonLastName(),
+                    owner.getDocumentNumber() });
+        }
     }
 
     private void createAddButton() {
@@ -146,7 +184,7 @@ public class CreatePetPopUp extends JDialog {
                 String specie = (String) animalDropdown.getSelectedItem();
                 String breed = breedField.getText();
                 String ageText = ageField.getText();
-                int selectedRow = personTable.getSelectedRow();
+                int selectedRow = ownerTable.getSelectedRow();
 
                 if (petName.isEmpty() || breed.isEmpty() || ageText.isEmpty() || selectedRow == -1) {
                     JOptionPane.showMessageDialog(CreatePetPopUp.this, "Todos los campos son obligatorios.", "Error",
@@ -155,7 +193,7 @@ public class CreatePetPopUp extends JDialog {
                 }
 
                 int petAge = Integer.parseInt(ageText);
-                int personId = Integer.parseInt(String.valueOf(tableModel.getValueAt(selectedRow, 0)));
+                int personId = Integer.parseInt(String.valueOf(ownerTable.getValueAt(selectedRow, 0)));
 
                 petPanel.getMainView().getPresenter()
                         .registerPet(petPanel.getMainView().getPresenter().createPet(ID_COUNTER, petName, specie,
@@ -181,20 +219,4 @@ public class CreatePetPopUp extends JDialog {
         });
         this.add(cancelButton);
     }
-
-    public void loadPersonsData() {
-        List<Person> users = petPanel.getMainView().getPresenter().getPersons();
-
-        tableModel.setRowCount(0);
-        for (Person person : users) {
-            tableModel.addRow(new Object[] {
-                    person.getPersonId(),
-                    person.getPersonName(),
-                    person.getPersonLastName(),
-                    person.getDocumentNumber()
-            });
-
-        }
-    }
-
 }
