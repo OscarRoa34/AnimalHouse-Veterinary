@@ -95,7 +95,7 @@ public class AppointmentPanel extends JPanel {
     }
 
     private void createPetTable() {
-        String[] columnNames = { "ID", "Nombre", "Especie", "Raza" };
+        String[] columnNames = { "ID", "Nombre", "Especie", "Raza", "Peso" };
         modelPets = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -126,6 +126,7 @@ public class AppointmentPanel extends JPanel {
                     pet.getPetName(),
                     pet.getSpecie(),
                     pet.getBreed(),
+                    pet.getWeight()
             });
         }
     }

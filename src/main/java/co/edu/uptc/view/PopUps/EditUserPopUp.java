@@ -27,8 +27,6 @@ public class EditUserPopUp extends JDialog {
     private JTextField ageField;
     private JTextField docNumberField;
     private JComboBox<String> documentComboBox;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
     private PropertiesService p = new PropertiesService();
     private UserPanel userPanel;
     private int id;
@@ -64,19 +62,19 @@ public class EditUserPopUp extends JDialog {
 
         nameField = new JTextField();
         nameField.setBounds(100, 70, 150, 30);
-        txtPrompt = new TextPrompt(name, nameField);
+        new TextPrompt(name, nameField);
         this.add(nameField);
 
         lastNameField = new JTextField();
         lastNameField.setBounds(100, 120, 150, 30);
-        txtPrompt = new TextPrompt(lastName, lastNameField);
+        new TextPrompt(lastName, lastNameField);
         this.add(lastNameField);
     }
 
     private void createAgeField(String age) {
         ageField = new JTextField();
         ageField.setBounds(100, 170, 150, 30);
-        txtPrompt = new TextPrompt(age, ageField);
+        new TextPrompt(age, ageField);
         ageField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -107,7 +105,7 @@ public class EditUserPopUp extends JDialog {
     private void createDocumentNumberField(String docNumber) {
         docNumberField = new JTextField();
         docNumberField.setBounds(100, 270, 150, 30);
-        txtPrompt = new TextPrompt(docNumber, docNumberField);
+        new TextPrompt(docNumber, docNumberField);
         docNumberField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {

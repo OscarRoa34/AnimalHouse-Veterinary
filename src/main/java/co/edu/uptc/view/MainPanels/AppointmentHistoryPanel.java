@@ -8,6 +8,7 @@ import com.toedter.calendar.JCalendar;
 
 import co.edu.uptc.view.GlobalView;
 import co.edu.uptc.view.MainView.MainView;
+import co.edu.uptc.view.PopUps.CreateFilterByWeightPopUp;
 import co.edu.uptc.Pojos.Appointment;
 import co.edu.uptc.Utils.PropertiesService;
 import co.edu.uptc.Utils.TextPrompt;
@@ -43,6 +44,11 @@ public class AppointmentHistoryPanel extends JPanel {
         addCalendarButton();
         createVaccineFilterButton();
         createResetFiltersButton();
+        createFilterByWeightButton();
+    }
+
+    public MainView getMainView() {
+        return this.mainView;
     }
 
     private void createTitle() {
@@ -76,7 +82,7 @@ public class AppointmentHistoryPanel extends JPanel {
 
     private void createAppointmentHistoryTable() {
         String[] columnNames = { "ID", "Fecha de la cita", "Mascota", "Vacunas", "Dueño",
-                "Fecha de expiración de vacuna" };
+                "Fecha de expiración de vacuna", "Peso de la mascota", };
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -203,7 +209,7 @@ public class AppointmentHistoryPanel extends JPanel {
         resetFiltersButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
         resetFiltersButton.setFocusPainted(false);
         resetFiltersButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_REMOVE_COLOR, 2));
-        resetFiltersButton.setBounds(340, 600, 200, 30);
+        resetFiltersButton.setBounds(240, 600, 200, 30);
         resetFiltersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -216,6 +222,30 @@ public class AppointmentHistoryPanel extends JPanel {
     public void resetFilters() {
         searchField.setText("");
         loadAppointmentsData();
+    }
+
+    private AppointmentHistoryPanel getInstance() {
+        return this;
+    }
+
+    private void createFilterByWeightButton() {
+        JButton vaccineFilterButton = new JButton("Filtrar por peso");
+        vaccineFilterButton.setBackground(GlobalView.BUTTONS_ADD_BACKGROUND);
+        vaccineFilterButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
+        vaccineFilterButton.setFocusPainted(false);
+        vaccineFilterButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_ADD_COLOR, 2));
+        vaccineFilterButton.setBounds(450, 600, 300, 30);
+        vaccineFilterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new CreateFilterByWeightPopUp(getInstance()).setVisible(true);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        this.add(vaccineFilterButton);
     }
 
     public void filterAppointmentsByDate(LocalDate selectedDate) {
@@ -231,7 +261,7 @@ public class AppointmentHistoryPanel extends JPanel {
                         appointment.getVaccineNames(),
                         appointment.getResponsible().getPersonName() + " "
                                 + appointment.getResponsible().getPersonLastName(),
-                        appointment.getEarliestVaccineExpiryDate()
+                        appointment.getEarliestVaccineExpiryDate(), appointment.getPet().getWeight()
                 });
             }
         }
@@ -250,13 +280,14 @@ public class AppointmentHistoryPanel extends JPanel {
                         appointment.getPet().getPetName(),
                         appointment.getVaccineNames(),
                         fullName,
-                        appointment.getEarliestVaccineExpiryDate()
+                        appointment.getEarliestVaccineExpiryDate(), appointment.getPet().getWeight()
                 });
             }
         }
     }
 
-    // Profe, Honestamente este metodo de filtrado fue hecho con chatGpt
+    // Profe, Honestamente este metodo de filtrado fue hecho con chatGpt porque me
+    // quedó grande
     public void filterAppointmentsByVaccineExpiry() {
         List<Appointment> appointments = mainView.getPresenter().getAppointments();
         model.setRowCount(0);
@@ -274,7 +305,7 @@ public class AppointmentHistoryPanel extends JPanel {
                         appointment.getVaccineNames(),
                         appointment.getResponsible().getPersonName() + " "
                                 + appointment.getResponsible().getPersonLastName(),
-                        appointment.getEarliestVaccineExpiryDate()
+                        appointment.getEarliestVaccineExpiryDate(), appointment.getPet().getWeight()
                 });
             }
         }
@@ -291,7 +322,9 @@ public class AppointmentHistoryPanel extends JPanel {
                     appointment.getVaccineNames(),
                     appointment.getResponsible().getPersonName() + " "
                             + appointment.getResponsible().getPersonLastName(),
-                    appointment.getEarliestVaccineExpiryDate() });
+                    appointment.getEarliestVaccineExpiryDate(),
+                    appointment.getPet().getWeight()
+            });
         }
     }
 }

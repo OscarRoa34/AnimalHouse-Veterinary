@@ -22,8 +22,6 @@ import co.edu.uptc.view.MainPanels.VaccinesPanel;
 public class EditVaccinePopUp extends JDialog {
     private JTextField nameField;
     private JTextField lifeSpanField;
-    @SuppressWarnings("unused")
-    private TextPrompt txtPrompt;
     private PropertiesService p = new PropertiesService();
     private VaccinesPanel vaccinesPanel;
     private int id;
@@ -55,14 +53,14 @@ public class EditVaccinePopUp extends JDialog {
 
         nameField = new JTextField();
         nameField.setBounds(100, 60, 150, 30);
-        txtPrompt = new TextPrompt(name, nameField);
+        new TextPrompt(name, nameField);
         this.add(nameField);
     }
 
     private void createLifeSpanField(int lifeSpan) {
         lifeSpanField = new JTextField();
         lifeSpanField.setBounds(100, 105, 150, 30);
-        txtPrompt = new TextPrompt(String.valueOf(lifeSpan), lifeSpanField);
+        new TextPrompt(String.valueOf(lifeSpan), lifeSpanField);
         this.add(lifeSpanField);
     }
 

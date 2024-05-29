@@ -19,7 +19,6 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
-//TODO arreglar tabla dueño mascota
 public class MainView extends JFrame implements ActionListener, VetInterface.View {
 
     private JPanel asidePanel;

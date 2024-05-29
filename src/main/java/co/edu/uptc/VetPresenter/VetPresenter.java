@@ -33,8 +33,8 @@ public class VetPresenter implements VetInterface.Presenter {
     }
 
     @Override
-    public Pet createPet(int petId, String petName, String specie, String breed, int petAge, Person owner) {
-        return new Pet(petId, petName, specie, breed, petAge, owner, null);
+    public Pet createPet(int petId, String petName, String specie, String breed, int petAge, Person owner, int weight) {
+        return new Pet(petId, petName, specie, breed, petAge, owner, null, weight);
     }
 
     @Override

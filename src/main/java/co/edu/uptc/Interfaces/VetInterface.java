@@ -86,7 +86,7 @@ public interface VetInterface {
 
         void registerPet(Pet pet);
 
-        Pet createPet(int petId, String petName, String specie, String breed, int age, Person owner);
+        Pet createPet(int petId, String petName, String specie, String breed, int age, Person owner, int weight);
 
         void editPet(int petId, Pet newPet);
 

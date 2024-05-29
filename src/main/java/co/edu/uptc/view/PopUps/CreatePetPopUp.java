@@ -35,6 +35,7 @@ public class CreatePetPopUp extends JDialog {
     private JComboBox<String> animalDropdown;
     private JTextField breedField;
     private JTextField ageField;
+    private JTextField weightField;
     private JTable ownerTable;
     private PetPanel petPanel;
     private static int ID_COUNTER;
@@ -44,7 +45,7 @@ public class CreatePetPopUp extends JDialog {
     public CreatePetPopUp(PetPanel petPanel) throws IOException {
         this.petPanel = petPanel;
         this.setTitle("Crear Mascota");
-        this.setSize(400, 600);
+        this.setSize(400, 650);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -55,6 +56,7 @@ public class CreatePetPopUp extends JDialog {
         createAnimalDropdown();
         createBreedField();
         createAgeField();
+        createWeightField();
         createOwnerTable(null);
         createAddButton();
         createCancelButton();
@@ -110,6 +112,21 @@ public class CreatePetPopUp extends JDialog {
         this.add(ageField);
     }
 
+    private void createWeightField() {
+        weightField = new JTextField();
+        weightField.setBounds(100, 270, 200, 30);
+        new TextPrompt("Peso de la mascota en kilos", weightField);
+        weightField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (!Character.isDigit(e.getKeyChar())) {
+                    e.consume();
+                }
+            }
+        });
+        this.add(weightField);
+    }
+
     private void createOwnerTable(String ownerName) {
         String[] columnNames = { "ID", "Nombre", "Apellido", "Documento" };
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
@@ -121,13 +138,13 @@ public class CreatePetPopUp extends JDialog {
         ownerTable = new JTable(model);
 
         JScrollPane scrollPane = new JScrollPane(ownerTable);
-        scrollPane.setBounds(20, 320, 350, 150);
+        scrollPane.setBounds(20, 380, 350, 150);
         this.add(scrollPane);
 
         loadOwnersData();
 
         searchOwnerField = new JTextField();
-        searchOwnerField.setBounds(100, 270, 200, 30);
+        searchOwnerField.setBounds(100, 320, 200, 30);
         new TextPrompt("Buscar Dueño por nombre", searchOwnerField);
         searchOwnerField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
@@ -176,7 +193,7 @@ public class CreatePetPopUp extends JDialog {
         addButton.setBackground(GlobalView.BUTTONS_ADD_BACKGROUND);
         addButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
         addButton.setFocusPainted(false);
-        addButton.setBounds(90, 480, 100, 40);
+        addButton.setBounds(90, 540, 100, 40);
         addButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_ADD_COLOR, 2));
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -184,6 +201,7 @@ public class CreatePetPopUp extends JDialog {
                 String specie = (String) animalDropdown.getSelectedItem();
                 String breed = breedField.getText();
                 String ageText = ageField.getText();
+                int weight = Integer.parseInt(String.valueOf(weightField.getText()));
                 int selectedRow = ownerTable.getSelectedRow();
 
                 if (petName.isEmpty() || breed.isEmpty() || ageText.isEmpty() || selectedRow == -1) {
@@ -197,7 +215,7 @@ public class CreatePetPopUp extends JDialog {
 
                 petPanel.getMainView().getPresenter()
                         .registerPet(petPanel.getMainView().getPresenter().createPet(ID_COUNTER, petName, specie,
-                                breed, petAge, petPanel.getMainView().getPresenter().getPersonById(personId)));
+                                breed, petAge, petPanel.getMainView().getPresenter().getPersonById(personId), weight));
                 petPanel.loadPetsData();
                 dispose();
             }
@@ -210,7 +228,7 @@ public class CreatePetPopUp extends JDialog {
         cancelButton.setBackground(GlobalView.BUTTONS_REMOVE_BACKGROUND);
         cancelButton.setForeground(GlobalView.BUTTONS_FOREGROUND);
         cancelButton.setFocusPainted(false);
-        cancelButton.setBounds(210, 480, 100, 40);
+        cancelButton.setBounds(210, 540, 100, 40);
         cancelButton.setBorder(BorderFactory.createLineBorder(GlobalView.BUTTONS_BORDER_REMOVE_COLOR, 2));
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

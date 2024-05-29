@@ -134,6 +134,78 @@ public class VetManager implements VetInterface.Model {
     }
 
     @Override
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    @Override
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    @Override
+    public List<Vaccine> getVaccines() {
+        return vaccines;
+    }
+
+    @Override
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    @Override
+    public Person getPersonById(int id) {
+        for (Person person : persons) {
+            if (person.getPersonId() == id) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Pet getPetById(int id) {
+        for (Pet pet : pets) {
+            if (pet.getPetId() == id) {
+                return pet;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getUserLastId() {
+        if (persons == null || persons.isEmpty()) {
+            return -1;
+        }
+        return persons.get(persons.size() - 1).getPersonId() + 1;
+    }
+
+    @Override
+    public int getPetLastId() {
+        if (pets == null || pets.isEmpty()) {
+            return -1;
+        }
+        return pets.get(pets.size() - 1).getPetId() + 1;
+    }
+
+    @Override
+    public int getVaccineLastId() {
+        if (vaccines == null || vaccines.isEmpty()) {
+            return -1;
+        }
+        return vaccines.get(vaccines.size() - 1).getVaccineId() + 1;
+    }
+
+    @Override
+    public int getAppointmentLastId() {
+        if (appointments == null || appointments.isEmpty()) {
+            return 0;
+        }
+        return appointments.get(appointments.size() - 1).getAppointmentId() + 1;
+    }
+
+    @Override
     public void saveAppointmentsToJson(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -218,77 +290,4 @@ public class VetManager implements VetInterface.Model {
             savePetsToJson(filePath);
         }
     }
-
-    @Override
-    public List<Pet> getPets() {
-        return pets;
-    }
-
-    @Override
-    public List<Person> getPersons() {
-        return persons;
-    }
-
-    @Override
-    public List<Vaccine> getVaccines() {
-        return vaccines;
-    }
-
-    @Override
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    @Override
-    public Person getPersonById(int id) {
-        for (Person person : persons) {
-            if (person.getPersonId() == id) {
-                return person;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Pet getPetById(int id) {
-        for (Pet pet : pets) {
-            if (pet.getPetId() == id) {
-                return pet;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public int getUserLastId() {
-        if (persons == null || persons.isEmpty()) {
-            return -1;
-        }
-        return persons.get(persons.size() - 1).getPersonId() + 1;
-    }
-
-    @Override
-    public int getPetLastId() {
-        if (pets == null || pets.isEmpty()) {
-            return -1;
-        }
-        return pets.get(pets.size() - 1).getPetId() + 1;
-    }
-
-    @Override
-    public int getVaccineLastId() {
-        if (vaccines == null || vaccines.isEmpty()) {
-            return -1;
-        }
-        return vaccines.get(vaccines.size() - 1).getVaccineId() + 1;
-    }
-
-    @Override
-    public int getAppointmentLastId() {
-        if (appointments == null || appointments.isEmpty()) {
-            return 0;
-        }
-        return appointments.get(appointments.size() - 1).getAppointmentId() + 1;
-    }
-
 }

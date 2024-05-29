@@ -1,20 +1,5 @@
 [ {
   "petId" : 1,
-  "petName" : "Temis",
-  "specie" : "Gato",
-  "breed" : "Criolla",
-  "petAge" : 4,
-  "owner" : {
-    "personId" : 1,
-    "personName" : "Oscar",
-    "personLastName" : "Roa ",
-    "personAge" : 19,
-    "documentType" : "Cedula de ciudadania",
-    "documentNumber" : "1048710096"
-  },
-  "keepers" : null
-}, {
-  "petId" : 2,
   "petName" : "Kyra",
   "specie" : "Perro",
   "breed" : "Criolla",
@@ -27,28 +12,14 @@
     "documentType" : "Cedula de ciudadania",
     "documentNumber" : "1051066802"
   },
-  "keepers" : null
+  "keepers" : null,
+  "weight" : 10
 }, {
-  "petId" : 3,
+  "petId" : 2,
   "petName" : "Max",
   "specie" : "Perro",
   "breed" : "Golden Retriever",
   "petAge" : 10,
-  "owner" : {
-    "personId" : 7,
-    "personName" : "Zuly",
-    "personLastName" : "Triana",
-    "personAge" : 44,
-    "documentType" : "Cedula Extranjera",
-    "documentNumber" : "172737127"
-  },
-  "keepers" : null
-}, {
-  "petId" : 4,
-  "petName" : "Diomedito",
-  "specie" : "Perro",
-  "breed" : "Pug",
-  "petAge" : 7,
   "owner" : {
     "personId" : 6,
     "personName" : "Diomedes",
@@ -57,28 +28,14 @@
     "documentType" : "Cedula de ciudadania",
     "documentNumber" : "9848391"
   },
-  "keepers" : null
+  "keepers" : null,
+  "weight" : 20
 }, {
-  "petId" : 5,
-  "petName" : "Tom",
-  "specie" : "Gato",
-  "breed" : "Siames",
-  "petAge" : 5,
-  "owner" : {
-    "personId" : 2,
-    "personName" : "Sara",
-    "personLastName" : "Roa",
-    "personAge" : 11,
-    "documentType" : "Tarjeta de identidad",
-    "documentNumber" : "1150438008"
-  },
-  "keepers" : null
-}, {
-  "petId" : 6,
+  "petId" : 3,
   "petName" : "Big Smoke",
   "specie" : "Gato",
   "breed" : "Persa",
-  "petAge" : 10,
+  "petAge" : 12,
   "owner" : {
     "personId" : 1,
     "personName" : "Oscar",
@@ -87,13 +44,30 @@
     "documentType" : "Cedula de ciudadania",
     "documentNumber" : "1048710096"
   },
-  "keepers" : null
+  "keepers" : null,
+  "weight" : 8
 }, {
-  "petId" : 7,
-  "petName" : "Sasuolo",
+  "petId" : 4,
+  "petName" : "Temis",
+  "specie" : "Gato",
+  "breed" : "Criolla",
+  "petAge" : 4,
+  "owner" : {
+    "personId" : 7,
+    "personName" : "Zuly",
+    "personLastName" : "Triana",
+    "personAge" : 44,
+    "documentType" : "Cedula Extranjera",
+    "documentNumber" : "172737127"
+  },
+  "keepers" : null,
+  "weight" : 11
+}, {
+  "petId" : 5,
+  "petName" : "Canichin",
   "specie" : "Perro",
   "breed" : "Caniche",
-  "petAge" : 13,
+  "petAge" : 15,
   "owner" : {
     "personId" : 5,
     "personName" : "Juan ",
@@ -102,13 +76,14 @@
     "documentType" : "Pasaporte",
     "documentNumber" : "1823123711"
   },
-  "keepers" : null
+  "keepers" : null,
+  "weight" : 6
 }, {
-  "petId" : 8,
-  "petName" : "Firulais",
+  "petId" : 6,
+  "petName" : "Huellitas",
   "specie" : "Perro",
-  "breed" : "Chandoso",
-  "petAge" : 15,
+  "breed" : "Salchicha",
+  "petAge" : 12,
   "owner" : {
     "personId" : 3,
     "personName" : "David",
@@ -117,5 +92,22 @@
     "documentType" : "Cedula de ciudadania",
     "documentNumber" : "1048123711"
   },
-  "keepers" : null
+  "keepers" : null,
+  "weight" : 13
+}, {
+  "petId" : 7,
+  "petName" : "Rocky",
+  "specie" : "Perro",
+  "breed" : "Gran Danes",
+  "petAge" : 15,
+  "owner" : {
+    "personId" : 2,
+    "personName" : "Sara",
+    "personLastName" : "Roa",
+    "personAge" : 11,
+    "documentType" : "Tarjeta de identidad",
+    "documentNumber" : "1150438008"
+  },
+  "keepers" : null,
+  "weight" : 30
 } ]

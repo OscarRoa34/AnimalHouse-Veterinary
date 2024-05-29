@@ -17,4 +17,5 @@ public class Pet {
     private int petAge;
     private Person owner;
     private List<Person> keepers;
+    private int weight;
 }
